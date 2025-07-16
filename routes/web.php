@@ -80,3 +80,27 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
 });
 
 
+//---shahd2---//
+use App\Http\Controllers\SkillController;
+use App\Http\Controllers\PreviousExperienceController;
+use App\Http\Controllers\AvailabilityController;
+use App\Http\Controllers\VolunteerRequestController;
+use App\Http\Controllers\WorkflowController;
+
+// مهارات
+Route::resource('skills', SkillController::class);
+
+// خبرات سابقة
+Route::resource('previous-experiences', PreviousExperienceController::class);
+
+// جدول التوفر
+Route::resource('availabilities', AvailabilityController::class);
+
+// طلبات التطوع
+Route::resource('volunteer-requests', VolunteerRequestController::class);
+
+// مثال لتغيير حالة الطلب (يمكنك تخصيصه حسب دالتك في الكنترولر)
+Route::patch('volunteer-requests/{volunteer_request}/status', [VolunteerRequestController::class, 'updateStatus'])->name('volunteer_requests.updateStatus');
+
+
+Route::resource('workflows', WorkflowController::class);

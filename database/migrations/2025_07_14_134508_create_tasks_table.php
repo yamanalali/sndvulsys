@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('project_id');
+            // Remove user_id from tasks table to allow many-to-many or one-to-many assignment via assignments table
             $table->text('description')->nullable();
             $table->enum('status', [
                 'new', 
@@ -39,9 +41,6 @@ return new class extends Migration
             $table->boolean('is_recurring')->default(false);
             $table->string('recurrence_pattern')->nullable()->comment('e.g. daily, weekly, monthly');
             $table->timestamps();
-
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('assigned_to')->references('id')->on('users')->onDelete('set null');
         });
     }
 
