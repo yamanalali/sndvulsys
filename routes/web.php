@@ -68,6 +68,14 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
     // -------------------------- main dashboard ----------------------//
     Route::controller(HomeController::class)->group(function () {
         Route::get('/home', 'index')->middleware('auth')->name('home');
+
+        Route::post('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus');
+        Route::get('/tasks/{id}', [TaskController::class, 'show'])->name('tasks.show');
+       
+
+        Route::get('/tasks/{task}/dependencies', [TaskController::class, 'showDependenciesForm'])->name('tasks.dependencies.form');
+        Route::post('/tasks/{task}/dependencies', [TaskController::class, 'storeDependency'])->name('tasks.dependencies.store');
+        
     });
 });
 
