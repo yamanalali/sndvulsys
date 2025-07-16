@@ -17,12 +17,30 @@ return new class extends Migration
             $table->string('project_id');
             // Remove user_id from tasks table to allow many-to-many or one-to-many assignment via assignments table
             $table->text('description')->nullable();
-            $table->enum('status', ['new', 'in_progress', 'pending', 'completed', 'cancelled'])->default('new');
-            $table->enum('priority', ['urgent', 'high', 'medium', 'low'])->default('medium');
+            $table->enum('status', [
+                'new', 
+                'in_progress', 
+                'pending_review', 
+                'awaiting_approval', 
+                'approved', 
+                'rejected', 
+                'on_hold', 
+                'completed', 
+                'cancelled', 
+                'archived'
+            ])->default('new');
+            $table->enum('priority', ['urgent', 'high', 'medium'   , 'low', 'none'])->default('medium');
             $table->foreignId('category_id')->constrained()->onDelete('cascade'); // مفتاح أجنبي للفئة
+            $table->unsignedBigInteger('created_by')->nullable()->comment('User who created the task');
+            $table->unsignedBigInteger('assigned_to')->nullable()->comment('User assigned to the task');
+            $table->date('start_date')->nullable();
             $table->date('deadline')->nullable();
+            $table->date('completed_at')->nullable();
+            $table->unsignedTinyInteger('progress')->default(0)->comment('Progress percentage 0-100');
+            $table->text('notes')->nullable();
+            $table->boolean('is_recurring')->default(false);
+            $table->string('recurrence_pattern')->nullable()->comment('e.g. daily, weekly, monthly');
             $table->timestamps();
-            // No user_id foreign key here; assignments table will handle user-task relationships
         });
     }
 
