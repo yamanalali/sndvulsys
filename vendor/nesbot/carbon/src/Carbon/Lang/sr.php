@@ -26,7 +26,7 @@ return [
     'year' => ':count godina|:count godine|:count godina',
     'y' => ':count g.',
     'month' => ':count mesec|:count meseca|:count meseci',
-    'm' => ':count mj.',
+    'm' => ':count mes.',
     'week' => ':count nedelja|:count nedelje|:count nedelja',
     'w' => ':count ned.',
     'day' => ':count dan|:count dana|:count dana',
@@ -37,15 +37,16 @@ return [
     'min' => ':count min.',
     'second' => ':count sekundu|:count sekunde|:count sekundi',
     's' => ':count sek.',
+
     'ago' => 'pre :time',
     'from_now' => 'za :time',
     'after' => 'nakon :time',
     'before' => 'pre :time',
 
-    'year_from_now' => ':count godinu|:count godine|:count godina',
     'year_ago' => ':count godinu|:count godine|:count godina',
-    'week_from_now' => ':count nedelju|:count nedelje|:count nedelja',
+    'year_from_now' => ':count godinu|:count godine|:count godina',
     'week_ago' => ':count nedelju|:count nedelje|:count nedelja',
+    'week_from_now' => ':count nedelju|:count nedelje|:count nedelja',
 
     'diff_now' => 'upravo sada',
     'diff_today' => 'danas',
