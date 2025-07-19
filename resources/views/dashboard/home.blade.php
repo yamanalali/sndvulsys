@@ -2,6 +2,52 @@
 @section('content')
     <!-- Main Content Wrapper -->
     <main class="main-content w-full px-[var(--margin-x)] pb-8">
+        <!-- Quick Actions Section -->
+        <div class="mt-4 grid grid-cols-12 gap-4 sm:mt-5 sm:gap-5 lg:mt-6 lg:gap-6">
+            <div class="card col-span-12">
+                <div class="flex items-center justify-between p-4 sm:p-5">
+                    <h2 class="text-lg font-medium text-slate-700 dark:text-navy-100">إدارة المستندات</h2>
+                </div>
+                <div class="grid grid-cols-1 gap-4 p-4 sm:grid-cols-3 sm:p-5">
+                    <a href="{{ route('documents.index') }}" class="group flex items-center space-x-3 rounded-lg border border-slate-200 p-4 transition-all hover:border-primary hover:bg-primary/5 dark:border-navy-600 dark:hover:border-accent dark:hover:bg-accent/5">
+                        <div class="flex size-12 items-center justify-center rounded-lg bg-primary/10 text-primary dark:bg-accent/10 dark:text-accent">
+                            <svg class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-slate-700 transition-colors group-hover:text-primary dark:text-navy-100 dark:group-hover:text-accent">عرض المستندات</h3>
+                            <p class="text-xs text-slate-400 dark:text-navy-300">عرض جميع المستندات المرفوعة</p>
+                        </div>
+                    </a>
+                    
+                    <a href="{{ route('documents.create') }}" class="group flex items-center space-x-3 rounded-lg border border-slate-200 p-4 transition-all hover:border-primary hover:bg-primary/5 dark:border-navy-600 dark:hover:border-accent dark:hover:bg-accent/5">
+                        <div class="flex size-12 items-center justify-center rounded-lg bg-success/10 text-success">
+                            <svg class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-slate-700 transition-colors group-hover:text-primary dark:text-navy-100 dark:group-hover:text-accent">رفع مستند جديد</h3>
+                            <p class="text-xs text-slate-400 dark:text-navy-300">رفع ملف جديد إلى النظام</p>
+                        </div>
+                    </a>
+                    
+                    <a href="{{ route('backup.documents') }}" class="group flex items-center space-x-3 rounded-lg border border-slate-200 p-4 transition-all hover:border-primary hover:bg-primary/5 dark:border-navy-600 dark:hover:border-accent dark:hover:bg-accent/5">
+                        <div class="flex size-12 items-center justify-center rounded-lg bg-warning/10 text-warning">
+                            <svg class="size-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-medium text-slate-700 transition-colors group-hover:text-primary dark:text-navy-100 dark:group-hover:text-accent">نسخة احتياطية</h3>
+                            <p class="text-xs text-slate-400 dark:text-navy-300">تحميل جميع المستندات</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
         <div class="mt-4 grid grid-cols-12 gap-4 sm:mt-5 sm:gap-5 lg:mt-6 lg:gap-6">
             <div class="card col-span-12 lg:col-span-8">
                 <div class="mt-3 flex flex-col justify-between px-4 sm:flex-row sm:items-center sm:px-5">

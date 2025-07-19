@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'إضافة مهارة جديدة')
+@section('title', 'تعديل المهارة')
 
 @section('content')
 <div class="skills-create-container">
@@ -9,10 +9,10 @@
         <div class="header-content">
             <div class="header-text">
                 <h1 class="page-title">
-                    <i class="fas fa-plus-circle"></i>
-                    إضافة مهارة جديدة
+                    <i class="fas fa-edit"></i>
+                    تعديل المهارة
                 </h1>
-                <p class="page-subtitle">أضف مهاراتك الشخصية لتحسين ملفك التطوعي</p>
+                <p class="page-subtitle">تحديث معلومات المهارة وتحسينها</p>
             </div>
             <div class="header-action">
                 <a href="{{ route('skills.index') }}" class="btn btn-outline-secondary">
@@ -43,12 +43,13 @@
             <!-- Skill Form -->
             <div class="form-card">
                 <div class="form-header">
-                    <h3><i class="fas fa-edit"></i> تفاصيل المهارة</h3>
-                    <p>املأ المعلومات التالية لإضافة مهارتك الجديدة</p>
+                    <h3><i class="fas fa-edit"></i> تعديل تفاصيل المهارة</h3>
+                    <p>قم بتحديث المعلومات التالية للمهارة</p>
                 </div>
 
-                <form method="POST" action="{{ route('skills.store') }}" id="skillForm" class="skill-form">
+                <form method="POST" action="{{ route('skills.update', $skill->id) }}" id="skillForm" class="skill-form">
                     @csrf
+                    @method('PUT')
                     
                     <div class="form-grid">
                         <!-- Skill Name -->
@@ -62,7 +63,7 @@
                                    name="name" 
                                    id="name" 
                                    class="form-input" 
-                                   value="{{ old('name') }}" 
+                                   value="{{ old('name', $skill->name) }}" 
                                    placeholder="مثال: البرمجة، التصميم، التدريس، الترجمة..."
                                    required>
                             <div class="input-help">
@@ -80,12 +81,12 @@
                             </label>
                             <select name="category" id="category" class="form-select" required>
                                 <option value="">اختر الفئة</option>
-                                <option value="تقنية" {{ old('category') == 'تقنية' ? 'selected' : '' }}>تقنية</option>
-                                <option value="تعليمية" {{ old('category') == 'تعليمية' ? 'selected' : '' }}>تعليمية</option>
-                                <option value="طبية" {{ old('category') == 'طبية' ? 'selected' : '' }}>طبية</option>
-                                <option value="اجتماعية" {{ old('category') == 'اجتماعية' ? 'selected' : '' }}>اجتماعية</option>
-                                <option value="إبداعية" {{ old('category') == 'إبداعية' ? 'selected' : '' }}>إبداعية</option>
-                                <option value="أخرى" {{ old('category') == 'أخرى' ? 'selected' : '' }}>أخرى</option>
+                                <option value="تقنية" {{ old('category', $skill->category) == 'تقنية' ? 'selected' : '' }}>تقنية</option>
+                                <option value="تعليمية" {{ old('category', $skill->category) == 'تعليمية' ? 'selected' : '' }}>تعليمية</option>
+                                <option value="طبية" {{ old('category', $skill->category) == 'طبية' ? 'selected' : '' }}>طبية</option>
+                                <option value="اجتماعية" {{ old('category', $skill->category) == 'اجتماعية' ? 'selected' : '' }}>اجتماعية</option>
+                                <option value="إبداعية" {{ old('category', $skill->category) == 'إبداعية' ? 'selected' : '' }}>إبداعية</option>
+                                <option value="أخرى" {{ old('category', $skill->category) == 'أخرى' ? 'selected' : '' }}>أخرى</option>
                             </select>
                         </div>
 
@@ -96,10 +97,10 @@
                                 مستوى المهارة
                             </label>
                             <select name="skill_level" id="skill_level" class="form-select">
-                                <option value="مبتدئ" {{ old('skill_level') == 'مبتدئ' ? 'selected' : '' }}>مبتدئ</option>
-                                <option value="متوسط" {{ old('skill_level') == 'متوسط' ? 'selected' : '' }} selected>متوسط</option>
-                                <option value="متقدم" {{ old('skill_level') == 'متقدم' ? 'selected' : '' }}>متقدم</option>
-                                <option value="خبير" {{ old('skill_level') == 'خبير' ? 'selected' : '' }}>خبير</option>
+                                <option value="مبتدئ" {{ old('skill_level', $skill->skill_level ?? 'متوسط') == 'مبتدئ' ? 'selected' : '' }}>مبتدئ</option>
+                                <option value="متوسط" {{ old('skill_level', $skill->skill_level ?? 'متوسط') == 'متوسط' ? 'selected' : '' }} selected>متوسط</option>
+                                <option value="متقدم" {{ old('skill_level', $skill->skill_level ?? 'متوسط') == 'متقدم' ? 'selected' : '' }}>متقدم</option>
+                                <option value="خبير" {{ old('skill_level', $skill->skill_level ?? 'متوسط') == 'خبير' ? 'selected' : '' }}>خبير</option>
                             </select>
                         </div>
 
@@ -110,11 +111,11 @@
                                 سنوات الخبرة
                             </label>
                             <select name="experience_years" id="experience_years" class="form-select">
-                                <option value="أقل من سنة" {{ old('experience_years') == 'أقل من سنة' ? 'selected' : '' }}>أقل من سنة</option>
-                                <option value="1-2 سنة" {{ old('experience_years') == '1-2 سنة' ? 'selected' : '' }}>1-2 سنة</option>
-                                <option value="3-5 سنوات" {{ old('experience_years') == '3-5 سنوات' ? 'selected' : '' }} selected>3-5 سنوات</option>
-                                <option value="6-10 سنوات" {{ old('experience_years') == '6-10 سنوات' ? 'selected' : '' }}>6-10 سنوات</option>
-                                <option value="أكثر من 10 سنوات" {{ old('experience_years') == 'أكثر من 10 سنوات' ? 'selected' : '' }}>أكثر من 10 سنوات</option>
+                                <option value="أقل من سنة" {{ old('experience_years', $skill->experience_years ?? '3-5 سنوات') == 'أقل من سنة' ? 'selected' : '' }}>أقل من سنة</option>
+                                <option value="1-2 سنة" {{ old('experience_years', $skill->experience_years ?? '3-5 سنوات') == '1-2 سنة' ? 'selected' : '' }}>1-2 سنة</option>
+                                <option value="3-5 سنوات" {{ old('experience_years', $skill->experience_years ?? '3-5 سنوات') == '3-5 سنوات' ? 'selected' : '' }} selected>3-5 سنوات</option>
+                                <option value="6-10 سنوات" {{ old('experience_years', $skill->experience_years ?? '3-5 سنوات') == '6-10 سنوات' ? 'selected' : '' }}>6-10 سنوات</option>
+                                <option value="أكثر من 10 سنوات" {{ old('experience_years', $skill->experience_years ?? '3-5 سنوات') == 'أكثر من 10 سنوات' ? 'selected' : '' }}>أكثر من 10 سنوات</option>
                             </select>
                         </div>
 
@@ -128,7 +129,7 @@
                                       id="description" 
                                       class="form-textarea" 
                                       rows="4" 
-                                      placeholder="وصف مختصر للمهارة ومجالات استخدامها والخبرات المكتسبة...">{{ old('description') }}</textarea>
+                                      placeholder="وصف مختصر للمهارة ومجالات استخدامها والخبرات المكتسبة...">{{ old('description', $skill->description) }}</textarea>
                             <div class="input-help">
                                 <i class="fas fa-info-circle"></i>
                                 وصف اختياري للمهارة (أقصى 300 حرف)
@@ -146,7 +147,7 @@
                                       id="certificates" 
                                       class="form-textarea" 
                                       rows="3" 
-                                      placeholder="اذكر الشهادات أو الدورات التدريبية المتعلقة بهذه المهارة...">{{ old('certificates') }}</textarea>
+                                      placeholder="اذكر الشهادات أو الدورات التدريبية المتعلقة بهذه المهارة...">{{ old('certificates', $skill->certificates ?? '') }}</textarea>
                         </div>
 
                         <!-- Additional Settings -->
@@ -156,7 +157,7 @@
                                 <div class="settings-grid">
                                     <div class="setting-item">
                                         <label class="checkbox-label">
-                                            <input type="checkbox" name="is_public" value="1" {{ old('is_public') ? 'checked' : 'checked' }}>
+                                            <input type="checkbox" name="is_public" value="1" {{ old('is_public', $skill->is_public ?? true) ? 'checked' : '' }}>
                                             <span class="checkmark"></span>
                                             <span class="setting-text">
                                                 <strong>مهارة عامة</strong>
@@ -166,7 +167,7 @@
                                     </div>
                                     <div class="setting-item">
                                         <label class="checkbox-label">
-                                            <input type="checkbox" name="available_for_volunteering" value="1" {{ old('available_for_volunteering') ? 'checked' : 'checked' }}>
+                                            <input type="checkbox" name="available_for_volunteering" value="1" {{ old('available_for_volunteering', $skill->available_for_volunteering ?? true) ? 'checked' : '' }}>
                                             <span class="checkmark"></span>
                                             <span class="setting-text">
                                                 <strong>متاح للتطوع</strong>
@@ -188,7 +189,7 @@
                             </button>
                             <button type="submit" class="btn btn-primary">
                                 <i class="fas fa-save"></i>
-                                حفظ المهارة
+                                حفظ التعديلات
                             </button>
                         </div>
                     </div>
@@ -738,8 +739,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const charCount = document.getElementById('charCount');
     
     // Character counter for description
-    descriptionTextarea.addEventListener('input', function() {
-        const length = this.value.length;
+    function updateCharCount() {
+        const length = descriptionTextarea.value.length;
         charCount.textContent = `${length}/300`;
         
         if (length > 300) {
@@ -747,7 +748,12 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             charCount.style.color = '#718096';
         }
-    });
+    }
+    
+    // Initialize character count
+    updateCharCount();
+    
+    descriptionTextarea.addEventListener('input', updateCharCount);
     
     // Form validation
     const form = document.getElementById('skillForm');

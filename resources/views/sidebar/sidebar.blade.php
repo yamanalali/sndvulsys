@@ -14,7 +14,7 @@
                 <!-- Dashboards Only -->
                 <a href="{{ route('home') }}"
                     class="flex size-11 items-center justify-center rounded-lg bg-primary/10 text-primary outline-none transition-colors duration-200 hover:bg-primary/20 focus:bg-primary/20 active:bg-primary/25 dark:bg-navy-600 dark:text-accent-light dark:hover:bg-navy-450 dark:focus:bg-navy-450 dark:active:bg-navy-450/90"
-                    x-tooltip.placement.right="'Dashboards'">
+                    x-tooltip.placement.right="'الرئيسية'">
                     <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 24 24">
                         <path fill="currentColor" fill-opacity=".3" d="M5 14.059c0-1.01 0-1.514.222-1.945.221-.43.632-.724 1.453-1.31l4.163-2.974c.56-.4.842-.601 1.162-.601.32 0 .601.2 1.162.601l4.163 2.974c.821.586 1.232.88 1.453 1.31.222.43.222.935.222 1.945V19c0 .943 0 1.414-.293 1.707C18.414 21 17.943 21 17 21H7c-.943 0-1.414 0-1.707-.293C5 20.414 5 19.943 5 19v-4.94Z"> </path>
                         <path fill="currentColor" d="M3 12.387c0 .267 0 .4.084.441.084.041.19-.04.4-.204l7.288-5.669c.59-.459.885-.688 1.228-.688.343 0 .638.23 1.228.688l7.288 5.669c.21.163.316.245.4.204.084-.04.084-.174.084-.441v-.409c0-.48 0-.72-.102-.928-.101-.208-.291-.355-.67-.65l-7-5.445c-.59-.459-.885-.688-1.228-.688-.343 0-.638.23-1.228.688l-7 5.445c-.379.295-.569.442-.67.65-.102.208-.102.448-.102.928v.409Z"> </path>
@@ -22,14 +22,10 @@
                         <path fill="currentColor" d="M17.5 5h-1a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5Z"> </path>
                     </svg>
                 </a>
-                <a href="{{ route('register') }}"
-                    class="flex size-11 items-center justify-center rounded-lg bg-primary/10 text-primary outline-none transition-colors duration-200 hover:bg-primary/20 focus:bg-primary/20 active:bg-primary/25 dark:bg-navy-600 dark:text-accent-light dark:hover:bg-navy-450 dark:focus:bg-navy-450 dark:active:bg-navy-450/90"
-                    x-tooltip.placement.right="'Dashboards'">
-                    <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="currentColor" fill-opacity="0.1"/>
-                        <path d="M12 7v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </a>
+                
+             
+                
+              
             </div>
 
             <!-- Bottom Links -->
@@ -227,26 +223,95 @@
                 <ul class="flex flex-1 flex-col px-4 font-inter">
                     <li>
                         <a x-data="navLink" href="{{ route('home') }}" :class="isActive ? 'font-medium text-primary dark:text-accent-light' : 'text-slate-600 hover:text-slate-900 dark:text-navy-200 dark:hover:text-navy-50'" class="flex py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out">
-                            Orders
+                            الرئيسية
                         </a>
                     </li>
                 </ul>
                 <div class="my-3 mx-4 h-px bg-slate-200 dark:bg-navy-500"></div>
                 
                 <ul class="flex flex-1 flex-col px-4 font-inter">
+                    <!-- المستندات مع قائمة منسدلة -->
+                    <li x-data="{ isOpen: false }">
+                        <button @click="isOpen = !isOpen" class="flex w-full items-center justify-between py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out text-slate-600 hover:text-slate-900 dark:text-navy-200 dark:hover:text-navy-50">
+                            <span>المستندات</span>
+                            <svg class="h-4 w-4 transition-transform duration-200" :class="isOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div x-show="isOpen" x-transition class="ml-4 mt-1 space-y-1">
+                            <a href="{{ route('documents.index') }}" class="block py-1 text-xs text-slate-500 hover:text-slate-700 dark:text-navy-300 dark:hover:text-navy-100">
+                                عرض المستندات
+                            </a>
+                            <a href="{{ route('documents.create') }}" class="block py-1 text-xs text-slate-500 hover:text-slate-700 dark:text-navy-300 dark:hover:text-navy-100">
+                                رفع مستند جديد
+                            </a>
+                            <a href="{{ route('backup.index') }}" class="block py-1 text-xs text-slate-500 hover:text-slate-700 dark:text-navy-300 dark:hover:text-navy-100">
+                                النسخ الاحتياطية
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <!-- طلبات التطوع مع قائمة منسدلة -->
+                    <li x-data="{ isOpen: false }">
+                        <button @click="isOpen = !isOpen" class="flex w-full items-center justify-between py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out text-slate-600 hover:text-slate-900 dark:text-navy-200 dark:hover:text-navy-50">
+                            <span>طلبات التطوع</span>
+                            <svg class="h-4 w-4 transition-transform duration-200" :class="isOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div x-show="isOpen" x-transition class="ml-4 mt-1 space-y-1">
+                            <a href="{{ route('applicationtovolunteer.create') }}" class="block py-1 text-xs text-slate-500 hover:text-slate-700 dark:text-navy-300 dark:hover:text-navy-100">
+                                <i class="fas fa-plus ml-2"></i>
+                                طلب تطوع جديد
+                            </a>
+                            <a href="{{ route('my.applications') }}" class="block py-1 text-xs text-slate-500 hover:text-slate-700 dark:text-navy-300 dark:hover:text-navy-100">
+                                <i class="fas fa-list ml-2"></i>
+                                طلباتي
+                            </a>
+                            <a href="{{ route('applicationtovolunteer.index') }}" class="block py-1 text-xs text-slate-500 hover:text-slate-700 dark:text-navy-300 dark:hover:text-navy-100">
+                                <i class="fas fa-cog ml-2"></i>
+                                إدارة طلبات التطوع
+                            </a>
+                        </div>
+                    </li>
+                    
+                    <!-- المهارات مع قائمة منسدلة -->
+                    <li x-data="{ isOpen: false }">
+                        <button @click="isOpen = !isOpen" class="flex w-full items-center justify-between py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out text-slate-600 hover:text-slate-900 dark:text-navy-200 dark:hover:text-navy-50">
+                            <span>المهارات</span>
+                            <svg class="h-4 w-4 transition-transform duration-200" :class="isOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+                        <div x-show="isOpen" x-transition class="ml-4 mt-1 space-y-1">
+                            <a href="{{ route('skills.index') }}" class="block py-1 text-xs text-slate-500 hover:text-slate-700 dark:text-navy-300 dark:hover:text-navy-100">
+                                <i class="fas fa-list ml-2"></i>
+                                جميع المهارات
+                            </a>
+                            <a href="{{ route('skills.my-skills') }}" class="block py-1 text-xs text-slate-500 hover:text-slate-700 dark:text-navy-300 dark:hover:text-navy-100">
+                                <i class="fas fa-user-graduate ml-2"></i>
+                                مهاراتي
+                            </a>
+                            <a href="{{ route('skills.create') }}" class="block py-1 text-xs text-slate-500 hover:text-slate-700 dark:text-navy-300 dark:hover:text-navy-100">
+                                <i class="fas fa-plus ml-2"></i>
+                                إضافة مهارة
+                            </a>
+                        </div>
+                    </li>
+
                     <li>
-                        <a x-data="navLink" href="dashboards-personal.html" :class="isActive ? 'font-medium text-primary dark:text-accent-light' : 'text-slate-600 hover:text-slate-900 dark:text-navy-200 dark:hover:text-navy-50'" class="flex py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out">
-                            Dashboard 01
+                        <a href="{{ route('previous-experiences.index') }}" class="flex py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out text-slate-600 hover:text-slate-900 dark:text-navy-200 dark:hover:text-navy-50">
+                            الخبرات السابقة
                         </a>
                     </li>
                     <li>
-                        <a x-data="navLink" href="dashboards-personal.html" :class="isActive ? 'font-medium text-primary dark:text-accent-light' : 'text-slate-600 hover:text-slate-900 dark:text-navy-200 dark:hover:text-navy-50'" class="flex py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out">
-                            Dashboard 02
+                        <a href="{{ route('availabilities.index') }}" class="flex py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out text-slate-600 hover:text-slate-900 dark:text-navy-200 dark:hover:text-navy-50">
+                            جدول التوفر
                         </a>
                     </li>
                     <li>
-                        <a x-data="navLink" href="dashboards-personal.html" :class="isActive ? 'font-medium text-primary dark:text-accent-light' : 'text-slate-600 hover:text-slate-900 dark:text-navy-200 dark:hover:text-navy-50'" class="flex py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out">
-                            Dashboard #
+                        <a href="{{ route('workflows.index') }}" class="flex py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out text-slate-600 hover:text-slate-900 dark:text-navy-200 dark:hover:text-navy-50">
+                            الحالات
                         </a>
                     </li>
                 </ul>

@@ -8,10 +8,9 @@ use Illuminate\Http\Request;
 
 class PreviousExperienceController extends Controller
 {
-    public function index($volunteerRequestId) {
-        $volunteer = VolunteerRequest::findOrFail($volunteerRequestId);
-        $experiences = $volunteer->previousExperiences;
-        return view('previous_experiences.index', compact('experiences', 'volunteer'));
+    public function index() {
+        $experiences = PreviousExperience::all();
+        return view('previous_experiences.index', compact('experiences'));
     }
 
     public function create()
