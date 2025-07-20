@@ -1,6 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+//---shahd2---//
+use App\Http\Controllers\SkillController;
+use App\Http\Controllers\PreviousExperienceController;
+use App\Http\Controllers\AvailabilityController;
+use App\Http\Controllers\VolunteerRequestController;
+use App\Http\Controllers\WorkflowController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\ProjectController;
+use Illuminate\Http\Request;
+use App\Models\Task;
 
 /** for side bar menu active */
 function set_active($route) {
@@ -69,23 +79,11 @@ Route::group(['namespace' => 'App\Http\Controllers'],function()
     Route::controller(HomeController::class)->group(function () {
         Route::get('/home', 'index')->middleware('auth')->name('home');
 
-        Route::post('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus');
-        Route::get('/tasks/{id}', [TaskController::class, 'show'])->name('tasks.show');
        
-
-        Route::get('/tasks/{task}/dependencies', [TaskController::class, 'showDependenciesForm'])->name('tasks.dependencies.form');
-        Route::post('/tasks/{task}/dependencies', [TaskController::class, 'storeDependency'])->name('tasks.dependencies.store');
-        
     });
 });
 
 
-//---shahd2---//
-use App\Http\Controllers\SkillController;
-use App\Http\Controllers\PreviousExperienceController;
-use App\Http\Controllers\AvailabilityController;
-use App\Http\Controllers\VolunteerRequestController;
-use App\Http\Controllers\WorkflowController;
 
 // مهارات
 Route::resource('skills', SkillController::class);
@@ -104,3 +102,71 @@ Route::patch('volunteer-requests/{volunteer_request}/status', [VolunteerRequestC
 
 
 Route::resource('workflows', WorkflowController::class);
+
+Route::resource('tasks', TaskController::class);
+
+// راوتات إضافية للمهام بعد resource لتجنب التضارب
+Route::post('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus');
+Route::get('/tasks/{id}/dependencies', [TaskController::class, 'showDependenciesForm'])->name('tasks.dependencies.form');
+Route::post('/tasks/{id}/dependencies', [TaskController::class, 'storeDependency'])->name('tasks.dependencies.store');
+
+// Projects routes
+Route::resource('projects', ProjectController::class);
+Route::get('/projects/my-projects', [ProjectController::class, 'myProjects'])->name('projects.my-projects');
+Route::get('/projects/team-tasks', [ProjectController::class, 'teamTasks'])->name('projects.team-tasks');
+
+// API routes for tasks (CRUD)
+Route::prefix('api/tasks')->group(function () {
+    Route::get('/', function() {
+        \Log::info('API: Get all tasks', ['user_id' => auth()->id()]);
+        return response()->json(Task::orderByDesc('created_at')->get());
+    });
+    Route::get('/{id}', function($id) {
+        $task = Task::find($id);
+        if (!$task) {
+            \Log::warning('API: Task not found', ['task_id' => $id, 'user_id' => auth()->id()]);
+            return response()->json(['error' => 'Task not found'], 404);
+        }
+        \Log::info('API: Get task', ['task_id' => $id, 'user_id' => auth()->id()]);
+        return response()->json($task);
+    });
+    Route::post('/', function(Request $request) {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'status' => 'required|in:new,in_progress,pending,completed,cancelled',
+            'deadline' => 'required|date',
+        ]);
+        $validated['project_id'] = 1;
+        $validated['category_id'] = 1;
+        $task = Task::create($validated);
+        \Log::info('API: Task created', ['task_id' => $task->id, 'user_id' => auth()->id(), 'data' => $validated]);
+        return response()->json($task, 201);
+    });
+    Route::put('/{id}', function(Request $request, $id) {
+        $task = Task::find($id);
+        if (!$task) {
+            \Log::warning('API: Task not found for update', ['task_id' => $id, 'user_id' => auth()->id()]);
+            return response()->json(['error' => 'Task not found'], 404);
+        }
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'status' => 'required|in:new,in_progress,pending,completed,cancelled',
+            'deadline' => 'required|date',
+        ]);
+        $task->update($validated);
+        \Log::info('API: Task updated', ['task_id' => $task->id, 'user_id' => auth()->id(), 'data' => $validated]);
+        return response()->json($task);
+    });
+    Route::delete('/{id}', function($id) {
+        $task = Task::find($id);
+        if (!$task) {
+            \Log::warning('API: Task not found for delete', ['task_id' => $id, 'user_id' => auth()->id()]);
+            return response()->json(['error' => 'Task not found'], 404);
+        }
+        $task->delete();
+        \Log::info('API: Task deleted', ['task_id' => $id, 'user_id' => auth()->id()]);
+        return response()->json(['message' => 'Task deleted successfully']);
+    });
+});
