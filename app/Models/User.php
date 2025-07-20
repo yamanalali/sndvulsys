@@ -79,4 +79,12 @@ class User extends Authenticatable
         });
     }
 
+    public function assignments()
+    {
+        return $this->hasMany(\App\Models\Assignment::class, 'user_id');
+    }
+    public function tasksThroughAssignments()
+    {
+        return $this->hasManyThrough(\App\Models\Task::class, \App\Models\Assignment::class, 'user_id', 'id', 'id', 'task_id');
+    }
 }

@@ -2,6 +2,103 @@
 @section('content')
     <!-- Main Content Wrapper -->
     <main class="main-content w-full px-[var(--margin-x)] pb-8">
+        <!-- Quick Actions -->
+        <div class="mt-4 grid grid-cols-1 md:grid-cols-4 gap-4 sm:mt-5 sm:gap-5 lg:mt-6 lg:gap-6">
+            <div x-data="{ isOpen: false }" class="card p-6 text-center hover:shadow-lg transition cursor-pointer relative">
+                <div @click="isOpen = !isOpen" class="flex items-center justify-center mb-3">
+                    <svg class="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-slate-700 dark:text-navy-100">المهام</h3>
+                <p class="text-sm text-slate-500">إدارة المهام والمشاريع</p>
+                
+                <!-- Dropdown Menu -->
+                <div x-show="isOpen" 
+                     x-transition:enter="transition ease-out duration-200"
+                     x-transition:enter-start="opacity-0 scale-95"
+                     x-transition:enter-end="opacity-100 scale-100"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="opacity-100 scale-100"
+                     x-transition:leave-end="opacity-0 scale-95"
+                     @click.outside="isOpen = false"
+                     class="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-navy-700 rounded-lg shadow-lg border border-slate-200 dark:border-navy-600 z-50">
+                    
+                    <a href="{{ route('tasks.index') }}" 
+                       class="flex w-full items-center justify-between py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out text-slate-600 hover:text-slate-900 dark:text-navy-200 dark:hover:text-navy-50 px-4">
+                        <span>جميع المهام</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                    
+                    <a href="{{ route('tasks.index', ['status' => 'new']) }}" 
+                       class="flex w-full items-center justify-between py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out text-slate-600 hover:text-slate-900 dark:text-navy-200 dark:hover:text-navy-50 px-4">
+                        <span>المهام الجديدة</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                    
+                    <a href="{{ route('tasks.index', ['status' => 'in_progress']) }}" 
+                       class="flex w-full items-center justify-between py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out text-slate-600 hover:text-slate-900 dark:text-navy-200 dark:hover:text-navy-50 px-4">
+                        <span>المهام قيد التنفيذ</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                    
+                    <a href="{{ route('tasks.index', ['status' => 'completed']) }}" 
+                       class="flex w-full items-center justify-between py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out text-slate-600 hover:text-slate-900 dark:text-navy-200 dark:hover:text-navy-50 px-4">
+                        <span>المهام المكتملة</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                    
+                    <div class="border-t border-slate-200 dark:border-navy-600 my-1"></div>
+                    
+                    <a href="{{ route('tasks.create') }}" 
+                       class="flex w-full items-center justify-between py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out text-slate-600 hover:text-slate-900 dark:text-navy-200 dark:hover:text-navy-50 px-4">
+                        <span>إنشاء مهمة جديدة</span>
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <a href="{{ route('projects.index') }}" class="card p-6 text-center hover:shadow-lg transition cursor-pointer">
+                <div class="flex items-center justify-center mb-3">
+                    <svg class="h-8 w-8 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-slate-700 dark:text-navy-100">المشاريع</h3>
+                <p class="text-sm text-slate-500">إدارة المشاريع والفرق</p>
+            </a>
+            
+            <a href="{{ route('projects.my-projects') }}" class="card p-6 text-center hover:shadow-lg transition cursor-pointer">
+                <div class="flex items-center justify-center mb-3">
+                    <svg class="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-slate-700 dark:text-navy-100">مشاريعي</h3>
+                <p class="text-sm text-slate-500">المشاريع التي أديرها</p>
+            </a>
+            
+            <a href="{{ route('projects.team-tasks') }}" class="card p-6 text-center hover:shadow-lg transition cursor-pointer">
+                <div class="flex items-center justify-center mb-3">
+                    <svg class="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-slate-700 dark:text-navy-100">مهام فريقي</h3>
+                <p class="text-sm text-slate-500">مهام فريق العمل</p>
+            </a>
+        </div>
+
         <div class="mt-4 grid grid-cols-12 gap-4 sm:mt-5 sm:gap-5 lg:mt-6 lg:gap-6">
             <div class="card col-span-12 lg:col-span-8">
                 <div class="mt-3 flex flex-col justify-between px-4 sm:flex-row sm:items-center sm:px-5">

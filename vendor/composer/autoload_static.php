@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d
+class ComposerStaticInite4dfd84ae936acc21a0fc2bcd17bf9c1
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -557,20 +557,34 @@ class ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d
     );
 
     public static $classMap = array (
+        'App\\Console\\Commands\\TaskManagementCommand' => __DIR__ . '/../..' . '/app/Console/Commands/TaskManagementCommand.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Auth\\VerificationController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/VerificationController.php',
+        'App\\Http\\Controllers\\AvailabilityController' => __DIR__ . '/../..' . '/app/Http/Controllers/AvailabilityController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
+        'App\\Http\\Controllers\\PreviousExperienceController' => __DIR__ . '/../..' . '/app/Http/Controllers/PreviousExperienceController.php',
+        'App\\Http\\Controllers\\SkillController' => __DIR__ . '/../..' . '/app/Http/Controllers/SkillController.php',
+        'App\\Http\\Controllers\\TaskController' => __DIR__ . '/../..' . '/app/Http/Controllers/TaskController.php',
+        'App\\Http\\Controllers\\VolunteerRequestController' => __DIR__ . '/../..' . '/app/Http/Controllers/VolunteerRequestController.php',
+        'App\\Http\\Controllers\\WorkflowController' => __DIR__ . '/../..' . '/app/Http/Controllers/WorkflowController.php',
         'App\\Models\\Assignment' => __DIR__ . '/../..' . '/app/Models/Assignment.php',
+        'App\\Models\\Availability' => __DIR__ . '/../..' . '/app/Models/Availability.php',
         'App\\Models\\Category' => __DIR__ . '/../..' . '/app/Models/Category.php',
+        'App\\Models\\PreviousExperience' => __DIR__ . '/../..' . '/app/Models/PreviousExperience.php',
+        'App\\Models\\Skill' => __DIR__ . '/../..' . '/app/Models/Skill.php',
         'App\\Models\\Task' => __DIR__ . '/../..' . '/app/Models/Task.php',
+        'App\\Models\\TaskDependency' => __DIR__ . '/../..' . '/app/Models/TaskDependency.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Models\\VolunteerRequest' => __DIR__ . '/../..' . '/app/Models/VolunteerRequest.php',
+        'App\\Models\\Workflow' => __DIR__ . '/../..' . '/app/Models/Workflow.php',
         'App\\Providers\\AppServiceProvider' => __DIR__ . '/../..' . '/app/Providers/AppServiceProvider.php',
+        'App\\Services\\TaskPriorityService' => __DIR__ . '/../..' . '/app/Services/TaskPriorityService.php',
+        'App\\Services\\TaskWorkflowService' => __DIR__ . '/../..' . '/app/Services/TaskWorkflowService.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Brian2694\\Toastr\\Facades\\Toastr' => __DIR__ . '/..' . '/brian2694/laravel-toastr/src/Facades/Toastr.php',
         'Brian2694\\Toastr\\Toastr' => __DIR__ . '/..' . '/brian2694/laravel-toastr/src/Toastr.php',
@@ -691,8 +705,13 @@ class ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d
         'Cron\\HoursField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/HoursField.php',
         'Cron\\MinutesField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MinutesField.php',
         'Cron\\MonthField' => __DIR__ . '/..' . '/dragonmantank/cron-expression/src/Cron/MonthField.php',
+        'Database\\Factories\\AssignmentFactory' => __DIR__ . '/../..' . '/database/factories/AssignmentFactory.php',
+        'Database\\Factories\\CategoryFactory' => __DIR__ . '/../..' . '/database/factories/CategoryFactory.php',
+        'Database\\Factories\\TaskFactory' => __DIR__ . '/../..' . '/database/factories/TaskFactory.php',
         'Database\\Factories\\UserFactory' => __DIR__ . '/../..' . '/database/factories/UserFactory.php',
         'Database\\Seeders\\DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeders/DatabaseSeeder.php',
+        'Database\\Seeders\\TaskManagementSeeder' => __DIR__ . '/../..' . '/database/seeders/TaskManagementSeeder.php',
+        'Database\\Seeders\\TaskSeeder' => __DIR__ . '/../..' . '/database/seeders/TaskSeeder.php',
         'DateError' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateError.php',
         'DateException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateException.php',
         'DateInvalidOperationException' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/DateInvalidOperationException.php',
@@ -6929,9 +6948,9 @@ class ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitda9b7a1dc1dd923105198c572cc7df8d::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite4dfd84ae936acc21a0fc2bcd17bf9c1::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite4dfd84ae936acc21a0fc2bcd17bf9c1::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInite4dfd84ae936acc21a0fc2bcd17bf9c1::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -14,20 +14,16 @@ return new class extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('project_id');
+            $table->unsignedBigInteger('project_id')->nullable();
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('set null');
             // Remove user_id from tasks table to allow many-to-many or one-to-many assignment via assignments table
             $table->text('description')->nullable();
             $table->enum('status', [
                 'new', 
                 'in_progress', 
-                'pending_review', 
-                'awaiting_approval', 
-                'approved', 
-                'rejected', 
-                'on_hold', 
+                'pending', 
                 'completed', 
-                'cancelled', 
-                'archived'
+                'cancelled'
             ])->default('new');
             $table->enum('priority', ['urgent', 'high', 'medium'   , 'low', 'none'])->default('medium');
             $table->foreignId('category_id')->constrained()->onDelete('cascade'); // مفتاح أجنبي للفئة
