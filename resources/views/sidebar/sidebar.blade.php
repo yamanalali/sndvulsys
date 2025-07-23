@@ -250,7 +250,32 @@
                     </li>
                 </ul>
                 <div class="my-3 mx-4 h-px bg-slate-200 dark:bg-navy-500"></div>
-                
+                <!-- روابط إجراءات المهام تظهر فقط في صفحة المهام -->
+                @if(request()->is('tasks') || request()->is('tasks/*'))
+                <ul class="flex flex-1 flex-col px-4 font-inter mb-2">
+                    <li>
+                        <a href="{{ route('tasks.index') }}" class="flex py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out text-slate-600 hover:text-primary">
+                            كل المهام
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('tasks.create') }}" class="flex py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out text-slate-600 hover:text-primary">
+                            إضافة مهمة جديدة
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('tasks.index', ['filter' => 'my']) }}" class="flex py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out text-slate-600 hover:text-primary">
+                            مهامي
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('tasks.index', ['filter' => 'completed']) }}" class="flex py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out text-slate-600 hover:text-primary">
+                            المهام المنجزة
+                        </a>
+                    </li>
+                </ul>
+                <div class="my-3 mx-4 h-px bg-slate-200 dark:bg-navy-500"></div>
+                @endif
                 <ul class="flex flex-1 flex-col px-4 font-inter">
                     <li>
                         <a x-data="navLink" href="dashboards-personal.html" :class="isActive ? 'font-medium text-primary dark:text-accent-light' : 'text-slate-600 hover:text-slate-900 dark:text-navy-200 dark:hover:text-navy-50'" class="flex py-2 text-xs+ tracking-wide outline-none transition-colors duration-300 ease-in-out">

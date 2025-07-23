@@ -67,14 +67,41 @@ class TaskController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * تخصيص متطوع لمهمة
+     */
+    public function assign(Request $request, $taskId)
+    {
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+        $task = Task::findOrFail($taskId);
+        // تحقق إذا كان التخصيص موجود مسبقًا
+        $exists = $task->assignments()->where('user_id', $request->user_id)->exists();
+        if (!$exists) {
+            $assignment = $task->assignments()->create([
+                'user_id' => $request->user_id,
+                'assigned_at' => now(),
+                'status' => 'assigned',
+            ]);
+            // إرسال إشعار للمستخدم
+            $user = \App\Models\User::find($request->user_id);
+            $user->notify(new \App\Notifications\AssignmentNotification($task, auth()->user()));
+        }
+        \Brian2694\Toastr\Facades\Toastr::success('تم تخصيص المهمة للمتطوع بنجاح', 'نجاح');
+        return back();
+    }
+
+    /**
+     * عرض تفاصيل المهمة مع المتطوعين المتاحين
      */
     public function show(string $id)
     {
         $task = Task::findOrFail($id);
         $allTasks = Task::where('id', '!=', $task->id)->get();
-        $task->load(['dependenciesRaw.prerequisiteTask']);
-        return view('tasks.show', compact('task', 'allTasks'));
+        $task->load(['dependenciesRaw.prerequisiteTask', 'assignments.user']);
+        // جلب المتطوعين المتاحين (يمكنك تخصيص الفلترة لاحقًا)
+        $availableVolunteers = \App\Models\User::where('type', 'volunteer')->get();
+        return view('tasks.show', compact('task', 'allTasks', 'availableVolunteers'));
     }
 
     /**
