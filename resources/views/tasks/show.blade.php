@@ -46,6 +46,28 @@
             <li class="py-2 flex justify-between"><span class="font-bold text-slate-700">ملاحظات:</span> <span class="text-slate-600">{{ $task->notes ?: '—' }}</span></li>
         </ul>
     </div>
+    <!-- تخصيص متطوعين للمهمة -->
+    <div class="bg-white rounded-xl border border-slate-200 p-6">
+        <h3 class="text-lg font-bold text-slate-700 mb-2">تخصيص متطوع للمهمة</h3>
+        <form action="{{ route('tasks.assign', $task->id) }}" method="POST" class="flex items-center gap-2 mt-2 mb-4">
+            @csrf
+            <label for="user_id" class="font-bold">اختر متطوع:</label>
+            <select name="user_id" id="user_id" class="rounded-xl border px-3 py-2">
+                @foreach($availableVolunteers as $volunteer)
+                    <option value="{{ $volunteer->id }}">{{ $volunteer->name }}</option>
+                @endforeach
+            </select>
+            <button type="submit" class="bg-primary text-white px-4 py-2 rounded-xl">تخصيص</button>
+        </form>
+        <div>
+            <h4 class="font-bold mb-2">المتطوعون المخصصون:</h4>
+            <ul class="list-disc pr-6">
+                @foreach($task->assignments as $assignment)
+                    <li>{{ $assignment->user->name }}</li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
     <div class="bg-white rounded-xl border border-slate-200 p-6">
         <h3 class="text-lg font-bold text-slate-700 mb-2">تحديث حالة المهمة</h3>
         <form method="POST" action="{{ route('tasks.updateStatus', $task->id) }}" class="flex flex-col md:flex-row gap-4 items-end">

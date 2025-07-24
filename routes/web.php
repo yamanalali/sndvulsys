@@ -109,6 +109,7 @@ Route::resource('tasks', TaskController::class);
 Route::post('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus');
 Route::get('/tasks/{id}/dependencies', [TaskController::class, 'showDependenciesForm'])->name('tasks.dependencies.form');
 Route::post('/tasks/{id}/dependencies', [TaskController::class, 'storeDependency'])->name('tasks.dependencies.store');
+Route::post('/tasks/{task}/assign', [App\Http\Controllers\TaskController::class, 'assign'])->name('tasks.assign');
 
 // Projects routes
 Route::resource('projects', ProjectController::class);
