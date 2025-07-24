@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInite4dfd84ae936acc21a0fc2bcd17bf9c1
+class ComposerStaticInita26e392a34a4d26f5939311a5ef7b370
 {
     public static $files = array (
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
@@ -583,12 +583,16 @@ class ComposerStaticInite4dfd84ae936acc21a0fc2bcd17bf9c1
         'App\\Models\\Assignment' => __DIR__ . '/../..' . '/app/Models/Assignment.php',
         'App\\Models\\Availability' => __DIR__ . '/../..' . '/app/Models/Availability.php',
         'App\\Models\\Category' => __DIR__ . '/../..' . '/app/Models/Category.php',
+        'App\\Models\\Evaluation' => __DIR__ . '/../..' . '/app/Models/Evaluation.php',
+        'App\\Models\\EvaluationType' => __DIR__ . '/../..' . '/app/Models/EvaluationType.php',
         'App\\Models\\PreviousExperience' => __DIR__ . '/../..' . '/app/Models/PreviousExperience.php',
         'App\\Models\\Project' => __DIR__ . '/../..' . '/app/Models/Project.php',
+        'App\\Models\\Rating' => __DIR__ . '/../..' . '/app/Models/Rating.php',
         'App\\Models\\Skill' => __DIR__ . '/../..' . '/app/Models/Skill.php',
         'App\\Models\\Task' => __DIR__ . '/../..' . '/app/Models/Task.php',
         'App\\Models\\TaskDependency' => __DIR__ . '/../..' . '/app/Models/TaskDependency.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
+        'App\\Models\\VolunteerPoint' => __DIR__ . '/../..' . '/app/Models/VolunteerPoint.php',
         'App\\Models\\VolunteerRequest' => __DIR__ . '/../..' . '/app/Models/VolunteerRequest.php',
         'App\\Models\\Workflow' => __DIR__ . '/../..' . '/app/Models/Workflow.php',
         'App\\Notifications\\AssignmentNotification' => __DIR__ . '/../..' . '/app/Notifications/AssignmentNotification.php',
@@ -6995,9 +6999,9 @@ class ComposerStaticInite4dfd84ae936acc21a0fc2bcd17bf9c1
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInite4dfd84ae936acc21a0fc2bcd17bf9c1::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInite4dfd84ae936acc21a0fc2bcd17bf9c1::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInite4dfd84ae936acc21a0fc2bcd17bf9c1::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita26e392a34a4d26f5939311a5ef7b370::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita26e392a34a4d26f5939311a5ef7b370::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInita26e392a34a4d26f5939311a5ef7b370::$classMap;
 
         }, null, ClassLoader::class);
     }

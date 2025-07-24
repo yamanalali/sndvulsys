@@ -43,12 +43,7 @@ return new class extends Migration
             $table->foreign('reviewed_by')->references('id')->on('users')->onDelete('set null');
         });
 
-        Schema::create('evaluation_criteria', function (Blueprint $table) {
-            $table->id();
-            $table->string('criterion_name'); // اسم معيار التقييم
-            $table->unsignedInteger('weight'); // الوزن النسبي للمعيار (مثلاً 40%)
-            $table->timestamps();
-        });
+       
     }
 
     /**
