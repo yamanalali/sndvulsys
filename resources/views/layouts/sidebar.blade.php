@@ -40,6 +40,12 @@
                                     <span class="pcoded-mtext">Volunteer Requests</span>
                                 </a>
                             </li>
+                            <li>
+                                <a href="{{ route('volunteer-evaluations.index') }}">
+                                    <span class="pcoded-micon"><i class="feather icon-star"></i></span>
+                                    <span class="pcoded-mtext">Volunteer Evaluations</span>
+                                </a>
+                            </li>
                         </ul>
                         <div class="pcoded-navigatio-lavel">Workflows & Tasks</div>
                         <ul class="pcoded-item pcoded-left-item">
@@ -80,6 +86,57 @@
                                 <a href="{{ route('projects.team-tasks') }}">
                                     <span class="pcoded-micon"><i class="feather icon-users"></i></span>
                                     <span class="pcoded-mtext">Team Tasks</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="pcoded-navigatio-lavel">Documents</div>
+                        <ul class="pcoded-item pcoded-left-item">
+                            <li>
+                                <a href="{{ route('documents.index') }}">
+                                    <span class="pcoded-micon"><i class="feather icon-file-text"></i></span>
+                                    <span class="pcoded-mtext">Documents</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('documents.create') }}">
+                                    <span class="pcoded-micon"><i class="feather icon-upload"></i></span>
+                                    <span class="pcoded-mtext">Upload Document</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('documents.all-backups') }}">
+                                    <span class="pcoded-micon"><i class="feather icon-save"></i></span>
+                                    <span class="pcoded-mtext">Document Backups</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="pcoded-navigatio-lavel">Case Management</div>
+                        <ul class="pcoded-item pcoded-left-item">
+                            <li>
+                                <a href="{{ route('case-management.index') }}">
+                                    <span class="pcoded-micon"><i class="feather icon-briefcase"></i></span>
+                                    <span class="pcoded-mtext">Case Management</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('case-management.dashboard') }}">
+                                    <span class="pcoded-micon"><i class="feather icon-bar-chart-2"></i></span>
+                                    <span class="pcoded-mtext">Case Dashboard</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="pcoded-navigatio-lavel">Submissions</div>
+                        <ul class="pcoded-item pcoded-left-item">
+                            <li>
+                                <a href="{{ route('submissions.index') }}">
+                                    <span class="pcoded-micon"><i class="feather icon-send"></i></span>
+                                    <span class="pcoded-mtext">Submissions</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('submissions.create') }}">
+                                    <span class="pcoded-micon"><i class="feather icon-plus"></i></span>
+                                    <span class="pcoded-mtext">Create Submission</span>
                                 </a>
                             </li>
                         </ul>

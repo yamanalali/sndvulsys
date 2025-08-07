@@ -15,13 +15,26 @@ return new class extends Migration
             $table->id();
 
             // كل توفر مرتبط بطلب تطوع
-            $table->foreignId('volunteer_request_id')->constrained()->onDelete('cascade');
+            $table->foreignId('volunteer-request_id')->constrained()->onDelete('cascade');
 
             // اليوم المتاح (مثلاً: الإثنين، أو Monday)
-            $table->string('day');
+            $table->enum('day', ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday']);
 
-            // الوقت (صباحًا، مساءً... إلخ)
-            $table->string('time')->nullable();
+            // فترة الوقت
+            $table->enum('time_slot', ['morning', 'afternoon', 'evening', 'night', 'flexible'])->nullable();
+            
+            // وقت البداية والنهاية المحدد
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
+            
+            // حالة التوفر
+            $table->boolean('is_available')->default(true);
+            
+            // ملاحظات إضافية
+            $table->text('notes')->nullable();
+            
+            // الساعات المفضلة في الأسبوع
+            $table->integer('preferred_hours_per_week')->nullable();
 
             $table->timestamps();
         });
