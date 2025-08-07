@@ -88,4 +88,37 @@ class User extends Authenticatable
     {
         return $this->hasManyThrough(\App\Models\Task::class, \App\Models\Assignment::class, 'user_id', 'id', 'id', 'task_id');
     }
+
+    /**
+     * علاقة مع إعدادات الإشعارات
+     */
+    public function notificationSettings()
+    {
+        return $this->hasOne(NotificationSetting::class);
+    }
+
+    /**
+     * الحصول على إعدادات الإشعارات أو إنشاء إعدادات افتراضية
+     */
+    public function getNotificationSettings()
+    {
+        return $this->notificationSettings()->firstOrCreate([], [
+            'assignment_notifications' => true,
+            'assignment_email' => true,
+            'assignment_database' => true,
+            'status_update_notifications' => true,
+            'status_update_email' => true,
+            'status_update_database' => true,
+            'deadline_reminder_notifications' => true,
+            'deadline_reminder_email' => true,
+            'deadline_reminder_database' => true,
+            'deadline_reminder_days' => 1,
+            'dependency_notifications' => true,
+            'dependency_email' => true,
+            'dependency_database' => true,
+            'email_notifications' => true,
+            'database_notifications' => true,
+            'browser_notifications' => false,
+        ]);
+    }
 }

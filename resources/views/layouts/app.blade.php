@@ -254,7 +254,7 @@
 
                                                         </div>
                                                         <div class="avatar-preview">
-                                                            <div id="imagePreview" style="background-image: url(../files/assets/images/{{ Auth::user()->avatar }});"></div>
+                                                            <div id="imagePreview" style="background-image: url(../files/assets/images/{{ Auth::user()?->avatar ?? 'avatar-1.jpg' }});"></div>
                                                         </div>
                                                         <h6 class="m-t-25 m-b-10"></h6>
                                                         <p class="text-muted"></p>
@@ -269,22 +269,22 @@
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <p class="m-b-10 f-w-600">Email</p>
-                                                        <h6 class="text-muted f-w-400">{{ Auth::user()->email }}<a href="#" class="cf_email" data-cfemail="1379767d6a53747e727a7f3d707c7e"></a></h6>
+                                                        <h6 class="text-muted f-w-400">{{ Auth::user()?->email ?? 'N/A' }}<a href="#" class="cf_email" data-cfemail="1379767d6a53747e727a7f3d707c7e"></a></h6>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <p class="m-b-10 f-w-600">Department</p>
-                                                        <h6 class="text-muted f-w-400">{{ Auth::user()->department }}</h6>
+                                                        <h6 class="text-muted f-w-400">{{ Auth::user()?->department ?? 'N/A' }}</h6>
                                                     </div>
                                                 </div>
                                                 <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Section</h6>
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <p class="m-b-10 f-w-600">Division</p>
-                                                        <h6 class="text-muted f-w-400">{{ Auth::user()->division }}</h6>
+                                                        <h6 class="text-muted f-w-400">{{ Auth::user()?->division ?? 'N/A' }}</h6>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <p class="m-b-10 f-w-600">Role</p>
-                                                        <h6 class="text-muted f-w-400">{{ Auth::user()->role_name }}</h6>
+                                                        <h6 class="text-muted f-w-400">{{ Auth::user()?->role_name ?? 'N/A' }}</h6>
                                                     </div>
                                                 </div>
                                             </div>

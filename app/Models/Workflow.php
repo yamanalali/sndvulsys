@@ -9,6 +9,8 @@ class Workflow extends Model
     use HasFactory;
 
     protected $fillable = [
+        'name',
+        'description',
         'volunteer_request_id',
         'reviewed_by',
         'status',

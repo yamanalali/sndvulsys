@@ -1,29 +1,44 @@
 'use strict';
 $(document).ready(function() {
-    var ctx = document.getElementById('update-chart-1').getContext("2d");
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: valincome('#fff', [25, 30, 20, 15, 20], '#fff'),
-        options: valincomebuildoption(),
-    });
-    var ctx = document.getElementById('update-chart-2').getContext("2d");
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: valincome('#fff', [10, 30, 20, 15, 30], '#fff'),
-        options: valincomebuildoption(),
-    });
-    var ctx = document.getElementById('update-chart-3').getContext("2d");
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: valincome('#fff', [25, 10, 20, 15, 20], '#fff'),
-        options: valincomebuildoption(),
-    });
-    var ctx = document.getElementById('update-chart-4').getContext("2d");
-    var myChart = new Chart(ctx, {
-        type: 'bar',
-        data: valincome('#fff', [25, 30, 20, 15, 10], '#fff'),
-        options: valincomebuildoption(),
-    });
+    var chart1Element = document.getElementById('update-chart-1');
+    if (chart1Element) {
+        var ctx = chart1Element.getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: valincome('#fff', [25, 30, 20, 15, 20], '#fff'),
+            options: valincomebuildoption(),
+        });
+    }
+    
+    var chart2Element = document.getElementById('update-chart-2');
+    if (chart2Element) {
+        var ctx = chart2Element.getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: valincome('#fff', [10, 30, 20, 15, 30], '#fff'),
+            options: valincomebuildoption(),
+        });
+    }
+    
+    var chart3Element = document.getElementById('update-chart-3');
+    if (chart3Element) {
+        var ctx = chart3Element.getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: valincome('#fff', [25, 10, 20, 15, 20], '#fff'),
+            options: valincomebuildoption(),
+        });
+    }
+    
+    var chart4Element = document.getElementById('update-chart-4');
+    if (chart4Element) {
+        var ctx = chart4Element.getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: valincome('#fff', [25, 30, 20, 15, 10], '#fff'),
+            options: valincomebuildoption(),
+        });
+    }
 
     function valincome(a, b, f) {
         if (f == null) {
@@ -343,30 +358,45 @@ $(document).ready(function() {
         }
     });
 
-    var ctx = document.getElementById('app-sale1').getContext("2d");
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: amuntchart('#11c15b', [1, 15, 30, 15, 25, 35, 45, 20, 25, 30], 'transparent'),
-        options: buildchartoption(),
-    });
-    var ctx = document.getElementById('app-sale2').getContext("2d");
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: amuntchart('#448aff', [45, 30, 25, 35, 20, 35, 45, 20, 25, 1], 'transparent'),
-        options: buildchartoption(),
-    });
-    var ctx = document.getElementById('app-sale3').getContext("2d");
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: amuntchart('#ff5252', [1, 45, 24, 40, 20, 35, 10, 20, 45, 30], 'transparent'),
-        options: buildchartoption(),
-    });
-    var ctx = document.getElementById('app-sale4').getContext("2d");
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: amuntchart('#536dfe', [1, 15, 45, 15, 25, 35, 45, 20, 25, 30], 'transparent'),
-        options: buildchartoption(),
-    });
+    var appSale1Element = document.getElementById('app-sale1');
+    if (appSale1Element) {
+        var ctx = appSale1Element.getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: amuntchart('#11c15b', [1, 15, 30, 15, 25, 35, 45, 20, 25, 30], 'transparent'),
+            options: buildchartoption(),
+        });
+    }
+    
+    var appSale2Element = document.getElementById('app-sale2');
+    if (appSale2Element) {
+        var ctx = appSale2Element.getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: amuntchart('#448aff', [45, 30, 25, 35, 20, 35, 45, 20, 25, 1], 'transparent'),
+            options: buildchartoption(),
+        });
+    }
+    
+    var appSale3Element = document.getElementById('app-sale3');
+    if (appSale3Element) {
+        var ctx = appSale3Element.getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: amuntchart('#ff5252', [1, 45, 24, 40, 20, 35, 10, 20, 45, 30], 'transparent'),
+            options: buildchartoption(),
+        });
+    }
+    
+    var appSale4Element = document.getElementById('app-sale4');
+    if (appSale4Element) {
+        var ctx = appSale4Element.getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: amuntchart('#536dfe', [1, 15, 45, 15, 25, 35, 45, 20, 25, 30], 'transparent'),
+            options: buildchartoption(),
+        });
+    }
 
     function amuntchart(a, b, f) {
         if (f == null) {

@@ -12,12 +12,12 @@
 <div class="row justify-content-center mt-4">
     <div class="col-12">
         <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">قائمة المهام</h5>
-                <div>
-                    <a href="{{ route('tasks.create') }}" class="btn btn-primary"><i class="feather icon-plus"></i> إضافة مهمة</a>
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">قائمة المهام <span class="badge badge-primary">{{ $filteredTasks->count() }}</span></h5>
+                    <div>
+                        <a href="{{ route('tasks.create') }}" class="btn btn-primary"><i class="feather icon-plus"></i> إضافة مهمة</a>
+                    </div>
                 </div>
-            </div>
             <div class="card-block">
                 <form class="form-inline mb-3" method="GET" action="">
                     <div class="form-group mr-2">
@@ -40,6 +40,8 @@
                     <thead class="thead-light">
                         <tr>
                             <th>العنوان</th>
+                            <th>المشروع</th>
+                            <th>المكلفون</th>
                             <th>الحالة</th>
                             <th>تاريخ الانتهاء</th>
                             <th>إجراءات</th>
@@ -64,9 +66,38 @@
                                 };
                             @endphp
                             <tr>
-                                <td>{{ $task->title }}</td>
+                                <td>
+                                    <strong>{{ $task->title }}</strong>
+                                    @if($task->description)
+                                        <br><small class="text-muted">{{ Str::limit($task->description, 50) }}</small>
+                                    @endif
+                                </td>
+                                <td>{{ $task->project ? $task->project->name : 'غير محدد' }}</td>
+                                <td>
+                                    @if($task->assignments->count() > 0)
+                                        @foreach($task->assignments->take(2) as $assignment)
+                                            <span class="badge badge-info">{{ $assignment->user->name }}</span>
+                                        @endforeach
+                                        @if($task->assignments->count() > 2)
+                                            <span class="badge badge-secondary">+{{ $task->assignments->count() - 2 }}</span>
+                                        @endif
+                                    @else
+                                        <span class="text-muted">غير محدد</span>
+                                    @endif
+                                </td>
                                 <td><span class="badge {{ $statusColor }}">{{ $statusLabel }}</span></td>
-                                <td>{{ $task->deadline ? $task->deadline->format('Y-m-d') : '-' }}</td>
+                                <td>
+                                    @if($task->deadline)
+                                        <span class="{{ $task->deadline < now() && $task->status != 'completed' ? 'text-danger font-weight-bold' : '' }}">
+                                            {{ $task->deadline->format('Y-m-d') }}
+                                        </span>
+                                        @if($task->deadline < now() && $task->status != 'completed')
+                                            <br><small class="text-danger">متأخرة</small>
+                                        @endif
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                                 <td>
                                     <a href="{{ route('tasks.show', $task->id) }}" class="btn btn-sm btn-outline-info" title="تفاصيل"><i class="feather icon-eye"></i></a>
                                     <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-sm btn-outline-primary" title="تعديل"><i class="feather icon-edit"></i></a>
@@ -79,7 +110,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="text-center text-muted">لا توجد مهام حالياً.</td>
+                                <td colspan="6" class="text-center text-muted">لا توجد مهام حالياً.</td>
                             </tr>
                         @endforelse
                     </tbody>
