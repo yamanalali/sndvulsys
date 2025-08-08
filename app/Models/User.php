@@ -89,36 +89,98 @@ class User extends Authenticatable
         return $this->hasManyThrough(\App\Models\Task::class, \App\Models\Assignment::class, 'user_id', 'id', 'id', 'task_id');
     }
 
-    /**
-     * علاقة مع إعدادات الإشعارات
-     */
-    public function notificationSettings()
+
+    // علاقة مع المستندات المملوكة
+    public function documents()
     {
-        return $this->hasOne(NotificationSetting::class);
+        return $this->hasMany(Document::class);
     }
 
-    /**
-     * الحصول على إعدادات الإشعارات أو إنشاء إعدادات افتراضية
-     */
-    public function getNotificationSettings()
+    // علاقة مع صلاحيات المستندات
+    public function documentPermissions()
     {
-        return $this->notificationSettings()->firstOrCreate([], [
-            'assignment_notifications' => true,
-            'assignment_email' => true,
-            'assignment_database' => true,
-            'status_update_notifications' => true,
-            'status_update_email' => true,
-            'status_update_database' => true,
-            'deadline_reminder_notifications' => true,
-            'deadline_reminder_email' => true,
-            'deadline_reminder_database' => true,
-            'deadline_reminder_days' => 1,
-            'dependency_notifications' => true,
-            'dependency_email' => true,
-            'dependency_database' => true,
-            'email_notifications' => true,
-            'database_notifications' => true,
-            'browser_notifications' => false,
-        ]);
+        return $this->hasMany(DocumentPermission::class);
+    }
+
+    // علاقة مع العلاقات التي يكون فيها المستخدم هو الطرف الرئيسي
+    public function relationships()
+    {
+        return $this->hasMany(UserRelationship::class);
+    }
+
+    // علاقة مع العلاقات التي يكون فيها المستخدم هو الطرف المرتبط
+    public function relatedRelationships()
+    {
+        return $this->hasMany(UserRelationship::class, 'related_user_id');
+    }
+
+    // الحصول على جميع المستندات التي يمكن للمستخدم الوصول إليها
+    public function accessibleDocuments()
+    {
+        return Document::where(function($query) {
+            $query->where('user_id', $this->id)
+                  ->orWhereHas('permissions', function($q) {
+                      $q->where('user_id', $this->id)
+                        ->where(function($subQ) {
+                            $subQ->whereNull('expires_at')
+                                 ->orWhere('expires_at', '>', now());
+                        });
+                  });
+        });
+    }
+
+    // الحصول على المشرفين المباشرين
+    public function supervisors()
+    {
+        return $this->hasManyThrough(
+            User::class,
+            UserRelationship::class,
+            'related_user_id',
+            'id',
+            'id',
+            'user_id'
+        )->where('relationship_type', 'supervisor')
+         ->where('status', 'active');
+    }
+
+    // الحصول على المرؤوسين المباشرين
+    public function subordinates()
+    {
+        return $this->hasManyThrough(
+            User::class,
+            UserRelationship::class,
+            'user_id',
+            'id',
+            'id',
+            'related_user_id'
+        )->where('relationship_type', 'subordinate')
+         ->where('status', 'active');
+    }
+
+    // الحصول على الزملاء
+    public function colleagues()
+    {
+        return $this->hasManyThrough(
+            User::class,
+            UserRelationship::class,
+            'user_id',
+            'id',
+            'id',
+            'related_user_id'
+        )->where('relationship_type', 'colleague')
+         ->where('status', 'active');
+    }
+
+    // التحقق من صلاحية على مستند معين
+    public function hasDocumentPermission($documentId, $permissionType)
+    {
+        return DocumentPermission::hasUserPermission($this->id, $documentId, $permissionType);
+    }
+
+    // منح صلاحية لمستند
+    public function grantDocumentPermission($documentId, $permissionType, $expiresAt = null)
+    {
+        return DocumentPermission::grantPermission($this->id, $documentId, $permissionType, 'direct', $expiresAt);
+
     }
 }

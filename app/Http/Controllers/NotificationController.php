@@ -2,86 +2,64 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Services\NotificationService;
+use App\Models\Notification;
 use App\Models\User;
+use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
-    protected $notificationService;
 
-    public function __construct(NotificationService $notificationService)
+    /**
+     * عرض قائمة إشعارات المستخدم
+     */
+    public function index(Request $request)
     {
-        $this->notificationService = $notificationService;
-        $this->middleware('auth');
+        $query = Notification::where('user_id', Auth::id());
+
+        // فلترة حسب النوع
+        if ($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
+
+        // فلترة حسب الحالة
+        if ($request->filled('status')) {
+            if ($request->status === 'read') {
+                $query->where('is_read', true);
+            } else {
+                $query->where('is_read', false);
+            }
+        }
+
+        // فلترة حسب التاريخ
+        if ($request->filled('date_from')) {
+            $query->whereDate('created_at', '>=', $request->date_from);
+        }
+
+        if ($request->filled('date_to')) {
+            $query->whereDate('created_at', '<=', $request->date_to);
+        }
+
+        $notifications = $query->orderBy('created_at', 'desc')->paginate(20);
+
+        $types = Notification::getTypes();
+        $deliveryMethods = Notification::getDeliveryMethods();
+
+        return view('notifications.index', compact('notifications', 'types', 'deliveryMethods'));
     }
 
     /**
-     * عرض صفحة الإشعارات
+     * عرض تفاصيل الإشعار
      */
-    public function index()
+    public function show($id)
     {
-        $user = Auth::user();
-        $notifications = $user->notifications()->paginate(20);
-        $stats = $this->notificationService->getUserNotificationStats($user);
-        
-        return view('notifications.index', compact('notifications', 'stats'));
-    }
+        $notification = Notification::where('user_id', Auth::id())->findOrFail($id);
 
-    /**
-     * عرض إعدادات الإشعارات
-     */
-    public function settings()
-    {
-        $user = Auth::user();
-        $settings = $user->getNotificationSettings();
-        
-        return view('notifications.settings', compact('settings'));
-    }
+        // تحديد الإشعار كمقروء
+        $notification->markAsRead();
 
-    /**
-     * تحديث إعدادات الإشعارات
-     */
-    public function updateSettings(Request $request)
-    {
-        $user = Auth::user();
-        
-        $validated = $request->validate([
-            'assignment_notifications' => 'boolean',
-            'assignment_email' => 'boolean',
-            'assignment_database' => 'boolean',
-            'status_update_notifications' => 'boolean',
-            'status_update_email' => 'boolean',
-            'status_update_database' => 'boolean',
-            'deadline_reminder_notifications' => 'boolean',
-            'deadline_reminder_email' => 'boolean',
-            'deadline_reminder_database' => 'boolean',
-            'deadline_reminder_days' => 'integer|min:0|max:30',
-            'dependency_notifications' => 'boolean',
-            'dependency_email' => 'boolean',
-            'dependency_database' => 'boolean',
-            'email_notifications' => 'boolean',
-            'database_notifications' => 'boolean',
-            'browser_notifications' => 'boolean',
-        ]);
-
-        $this->notificationService->updateUserNotificationSettings($user, $validated);
-        
-        return redirect()->route('notifications.settings')
-            ->with('success', 'تم تحديث إعدادات الإشعارات بنجاح');
-    }
-
-    /**
-     * إعادة تعيين إعدادات الإشعارات
-     */
-    public function resetSettings()
-    {
-        $user = Auth::user();
-        $this->notificationService->resetUserNotificationSettings($user);
-        
-        return redirect()->route('notifications.settings')
-            ->with('success', 'تم إعادة تعيين إعدادات الإشعارات إلى الافتراضية');
+        return view('notifications.show', compact('notification'));
     }
 
     /**
@@ -89,11 +67,14 @@ class NotificationController extends Controller
      */
     public function markAsRead($id)
     {
-        $user = Auth::user();
-        $notification = $user->notifications()->findOrFail($id);
+        $notification = Notification::where('user_id', Auth::id())->findOrFail($id);
         $notification->markAsRead();
-        
-        return response()->json(['success' => true]);
+
+        if (request()->ajax()) {
+            return response()->json(['success' => true]);
+        }
+
+        return redirect()->back()->with('success', 'تم تحديد الإشعار كمقروء');
     }
 
     /**
@@ -101,82 +82,229 @@ class NotificationController extends Controller
      */
     public function markAllAsRead()
     {
-        $user = Auth::user();
-        
-        if (!$user) {
-            return response()->json(['success' => false, 'message' => 'User not authenticated'], 401);
+        Notification::markAllAsRead(Auth::id());
+
+        if (request()->ajax()) {
+            return response()->json(['success' => true]);
         }
-        
-        $user->unreadNotifications->markAsRead();
-        
-        return response()->json(['success' => true]);
+
+        return redirect()->back()->with('success', 'تم تحديد جميع الإشعارات كمقروءة');
     }
 
     /**
-     * حذف إشعار
+     * حذف الإشعار
      */
     public function destroy($id)
     {
-        $user = Auth::user();
-        $notification = $user->notifications()->findOrFail($id);
+        $notification = Notification::where('user_id', Auth::id())->findOrFail($id);
         $notification->delete();
-        
-        return response()->json(['success' => true]);
+
+        if (request()->ajax()) {
+            return response()->json(['success' => true]);
+        }
+
+        return redirect()->back()->with('success', 'تم حذف الإشعار بنجاح');
     }
 
     /**
-     * حذف جميع الإشعارات
+     * حذف جميع الإشعارات المقروءة
      */
-    public function destroyAll()
+    public function destroyRead()
     {
-        $user = Auth::user();
-        $user->notifications()->delete();
-        
-        return response()->json(['success' => true]);
+        Notification::where('user_id', Auth::id())
+            ->where('is_read', true)
+            ->delete();
+
+        return redirect()->back()->with('success', 'تم حذف جميع الإشعارات المقروءة');
     }
 
     /**
-     * الحصول على عدد الإشعارات غير المقروءة
+     * الحصول على عدد الإشعارات غير المقروءة (API)
      */
     public function getUnreadCount()
     {
-        $user = Auth::user();
-        
-        if (!$user) {
-            return response()->json(['count' => 0]);
-        }
-        
-        $count = $user->unreadNotifications->count();
-        
+        $count = Notification::getUnreadCount(Auth::id());
         return response()->json(['count' => $count]);
     }
 
     /**
-     * الحصول على الإشعارات غير المقروءة
+     * الحصول على الإشعارات غير المقروءة (API)
      */
     public function getUnreadNotifications()
     {
-        $user = Auth::user();
-        
-        if (!$user) {
-            return response()->json(['notifications' => []]);
-        }
-        
-        $notifications = $user->unreadNotifications()->take(10)->get();
-        
-        return response()->json(['notifications' => $notifications]);
+        $notifications = Notification::where('user_id', Auth::id())
+            ->where('is_read', false)
+            ->orderBy('created_at', 'desc')
+            ->limit(10)
+            ->get();
+
+        return response()->json($notifications);
     }
 
     /**
-     * إرسال تذكيرات تجريبية
+     * إرسال إشعار تجريبي
      */
-    public function sendTestReminders()
+    public function sendTestNotification(Request $request)
     {
-        try {
-            $this->notificationService->sendDeadlineReminderNotifications();
-            return response()->json(['success' => true, 'message' => 'تم إرسال التذكيرات التجريبية بنجاح']);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'حدث خطأ: ' . $e->getMessage()]);
+        $validator = \Validator::make($request->all(), [
+            'title' => 'required|string|max:255',
+            'message' => 'required|string|max:1000',
+            'type' => 'required|in:approval_decision,rejection_decision,request_review,status_update,reminder,system_alert',
+            'delivery_method' => 'required|in:email,sms,in_app,all'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
         }
+
+        $notification = Notification::create([
+            'user_id' => Auth::id(),
+            'title' => $request->title,
+            'message' => $request->message,
+            'type' => $request->type,
+            'delivery_method' => $request->delivery_method,
+            'data' => [
+                'test' => true,
+                'sent_at' => now()->toISOString()
+            ]
+        ]);
+
+        // إرسال الإشعار
+        $notification->send();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'تم إرسال الإشعار التجريبي بنجاح',
+            'notification' => $notification
+        ]);
     }
-}
+
+    /**
+     * إحصائيات الإشعارات
+     */
+    public function statistics()
+    {
+        $userId = Auth::id();
+
+        $stats = [
+            'total_notifications' => Notification::where('user_id', $userId)->count(),
+            'unread_notifications' => Notification::where('user_id', $userId)->where('is_read', false)->count(),
+            'read_notifications' => Notification::where('user_id', $userId)->where('is_read', true)->count(),
+            'notifications_by_type' => Notification::where('user_id', $userId)
+                ->selectRaw('type, count(*) as count')
+                ->groupBy('type')
+                ->get(),
+            'recent_notifications' => Notification::where('user_id', $userId)
+                ->orderBy('created_at', 'desc')
+                ->limit(10)
+                ->get()
+        ];
+
+        return view('notifications.statistics', compact('stats'));
+    }
+
+    /**
+     * إعدادات الإشعارات
+     */
+    public function settings()
+    {
+        $user = Auth::user();
+        $types = Notification::getTypes();
+        $deliveryMethods = Notification::getDeliveryMethods();
+
+        return view('notifications.settings', compact('user', 'types', 'deliveryMethods'));
+    }
+
+    /**
+     * حفظ إعدادات الإشعارات
+     */
+    public function updateSettings(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'notification_preferences' => 'array',
+            'notification_preferences.*' => 'in:email,sms,in_app,all',
+            'email_notifications' => 'boolean',
+            'sms_notifications' => 'boolean',
+            'in_app_notifications' => 'boolean'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $user = Auth::user();
+        
+        // حفظ إعدادات الإشعارات في ملف المستخدم أو جدول منفصل
+        $user->update([
+            'notification_preferences' => $request->notification_preferences ?? [],
+            'email_notifications' => $request->email_notifications ?? true,
+            'sms_notifications' => $request->sms_notifications ?? false,
+            'in_app_notifications' => $request->in_app_notifications ?? true
+        ]);
+
+        return redirect()->back()->with('success', 'تم حفظ إعدادات الإشعارات بنجاح');
+    }
+
+    /**
+     * تصدير الإشعارات
+     */
+    public function export(Request $request)
+    {
+        $query = Notification::where('user_id', Auth::id());
+
+        // فلترة حسب النوع
+        if ($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
+
+        // فلترة حسب الحالة
+        if ($request->filled('status')) {
+            if ($request->status === 'read') {
+                $query->where('is_read', true);
+            } else {
+                $query->where('is_read', false);
+            }
+        }
+
+        $notifications = $query->orderBy('created_at', 'desc')->get();
+
+        // تصدير كـ CSV
+        $filename = 'notifications_' . date('Y-m-d_H-i-s') . '.csv';
+        
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ];
+
+        $callback = function() use ($notifications) {
+            $file = fopen('php://output', 'w');
+            
+            // رأس الجدول
+            fputcsv($file, [
+                'العنوان',
+                'الرسالة',
+                'النوع',
+                'الحالة',
+                'تاريخ الإنشاء',
+                'تاريخ القراءة'
+            ]);
+
+            // البيانات
+            foreach ($notifications as $notification) {
+                fputcsv($file, [
+                    $notification->title,
+                    $notification->message,
+                    $notification->type_text,
+                    $notification->is_read ? 'مقروء' : 'غير مقروء',
+                    $notification->created_at->format('Y-m-d H:i:s'),
+                    $notification->read_at ? $notification->read_at->format('Y-m-d H:i:s') : ''
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+} 
+

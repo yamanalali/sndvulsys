@@ -40,6 +40,12 @@
                                     <span class="pcoded-mtext">Volunteer Requests</span>
                                 </a>
                             </li>
+                            <li>
+                                <a href="{{ route('volunteer-evaluations.index') }}">
+                                    <span class="pcoded-micon"><i class="feather icon-star"></i></span>
+                                    <span class="pcoded-mtext">Volunteer Evaluations</span>
+                                </a>
+                            </li>
                         </ul>
                         <div class="pcoded-navigatio-lavel">Workflows & Tasks</div>
                         <ul class="pcoded-item pcoded-left-item">
@@ -101,33 +107,56 @@
                                 </a>
                             </li>
                         </ul>
-                        <div class="pcoded-navigatio-lavel">Analytics</div>
+
+                        <div class="pcoded-navigatio-lavel">Documents</div>
                         <ul class="pcoded-item pcoded-left-item">
                             <li>
-                                <a href="{{ route('analytics.index') }}">
-                                    <span class="pcoded-micon"><i class="feather icon-bar-chart-2"></i></span>
-                                    <span class="pcoded-mtext">Task Analytics</span>
+                                <a href="{{ route('documents.index') }}">
+                                    <span class="pcoded-micon"><i class="feather icon-file-text"></i></span>
+                                    <span class="pcoded-mtext">Documents</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('documents.create') }}">
+                                    <span class="pcoded-micon"><i class="feather icon-upload"></i></span>
+                                    <span class="pcoded-mtext">Upload Document</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('documents.all-backups') }}">
+                                    <span class="pcoded-micon"><i class="feather icon-save"></i></span>
+                                    <span class="pcoded-mtext">Document Backups</span>
                                 </a>
                             </li>
                         </ul>
-                        <div class="pcoded-navigatio-lavel">Notifications</div>
+                        <div class="pcoded-navigatio-lavel">Case Management</div>
                         <ul class="pcoded-item pcoded-left-item">
                             <li>
-                                <a href="{{ route('notifications.index') }}">
-                                    <span class="pcoded-micon"><i class="feather icon-bell"></i></span>
-                                    <span class="pcoded-mtext">Notifications</span>
-                                    @php
-                                        $unreadCount = auth()->check() ? auth()->user()->unreadNotifications->count() : 0;
-                                    @endphp
-                                    @if($unreadCount > 0)
-                                        <span class="badge badge-danger badge-pill ml-auto">{{ $unreadCount }}</span>
-                                    @endif
+                                <a href="{{ route('case-management.index') }}">
+                                    <span class="pcoded-micon"><i class="feather icon-briefcase"></i></span>
+                                    <span class="pcoded-mtext">Case Management</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('notifications.settings') }}">
-                                    <span class="pcoded-micon"><i class="feather icon-settings"></i></span>
-                                    <span class="pcoded-mtext">Notification Settings</span>
+                                <a href="{{ route('case-management.dashboard') }}">
+                                    <span class="pcoded-micon"><i class="feather icon-bar-chart-2"></i></span>
+                                    <span class="pcoded-mtext">Case Dashboard</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="pcoded-navigatio-lavel">Submissions</div>
+                        <ul class="pcoded-item pcoded-left-item">
+                            <li>
+                                <a href="{{ route('submissions.index') }}">
+                                    <span class="pcoded-micon"><i class="feather icon-send"></i></span>
+                                    <span class="pcoded-mtext">Submissions</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('submissions.create') }}">
+                                    <span class="pcoded-micon"><i class="feather icon-plus"></i></span>
+                                    <span class="pcoded-mtext">Create Submission</span>
+
                                 </a>
                             </li>
                         </ul>
