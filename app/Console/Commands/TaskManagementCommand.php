@@ -120,7 +120,7 @@ class TaskManagementCommand extends Command
                 $task->status,
                 $task->priority,
                 $task->category->name ?? 'N/A',
-                $task->assignee->name ?? 'Unassigned',
+                $task->getMainAssignee()?->name ?? 'Unassigned',
                 $task->progress . '%',
                 $task->deadline ? $task->deadline->format('Y-m-d') : 'No deadline'
             ];

@@ -1,3 +1,4 @@
+<
 @extends('layouts.app')
 
 @section('title', 'إنشاء سير عمل جديد')
@@ -159,6 +160,7 @@
                             </button>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>

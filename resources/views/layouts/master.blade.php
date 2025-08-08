@@ -13,62 +13,69 @@
     <!-- Favicon icon -->
     <link rel="icon" href="..\files\assets\images\favicon.ico" type="image/x-icon">
 
-    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
 
 
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/assets/icon/icofont/css/icofont.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/icon/icofont/css/icofont.css') }}">
 
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
     <!-- Required Fremwork -->
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/bower_components/bootstrap/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/bower_components/bootstrap/css/bootstrap.min.css') }}">
     <!-- feather Awesome -->
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/assets/icon/feather/css/feather.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/assets/icon/themify-icons/themify-icons.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/icon/feather/css/feather.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/icon/themify-icons/themify-icons.css') }}">
 
     <!-- Style.css -->
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/assets/css/style.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/assets/css/jquery.mCustomScrollbar.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/css/style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/css/jquery.mCustomScrollbar.css') }}">
 
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/assets/icon/font-awesome/css/font-awesome.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/icon/font-awesome/css/font-awesome.min.css') }}">
 
     <!-- animation nifty modal window effects css -->
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/assets/css/component.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/css/component.css') }}">
 
     <!-- Select 2 css -->
-    <link rel="stylesheet" href="{{URL::to('files/bower_components/select2/css/select2.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('files/bower_components/select2/css/select2.min.css') }}">
 
     <!-- notify js Fremwork -->
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/bower_components/pnotify/css/pnotify.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/bower_components/pnotify/css/pnotify.brighttheme.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/bower_components/pnotify/css/pnotify.buttons.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/bower_components/pnotify/css/pnotify.history.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/bower_components/pnotify/css/pnotify.mobile.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/assets/pages/pnotify/notify.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/bower_components/pnotify/css/pnotify.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/bower_components/pnotify/css/pnotify.brighttheme.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/bower_components/pnotify/css/pnotify.buttons.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/bower_components/pnotify/css/pnotify.history.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/bower_components/pnotify/css/pnotify.mobile.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/pages/pnotify/notify.css') }}">
 
     <!-- jpro forms css -->
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/assets/pages/j-pro/css/demo.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/assets/pages/j-pro/css/font-awesome.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/assets/pages/j-pro/css/j-pro-modern.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/pages/j-pro/css/demo.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/pages/j-pro/css/font-awesome.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/pages/j-pro/css/j-pro-modern.css') }}">
+    <!-- Bootstrap CSS fallback -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- jquery file upload Frame work -->
-    <link  rel="stylesheet" type="text/css"  href="{{URL::to('files/assets/pages/jquery.filer/css/jquery.filer.css')}}">
-    <link  rel="stylesheet" type="text/css"  href="{{URL::to('files/assets/pages/jquery.filer/css/themes/jquery.filer-dragdropbox-theme.css')}}">
+    <link  rel="stylesheet" type="text/css"  href="{{ asset('files/assets/pages/jquery.filer/css/jquery.filer.css') }}">
+    <link  rel="stylesheet" type="text/css"  href="{{ asset('files/assets/pages/jquery.filer/css/themes/jquery.filer-dragdropbox-theme.css') }}">
 
     <!-- Data Table Css -->
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/assets/pages/data-table/css/buttons.dataTables.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/bower_components/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/pages/data-table/css/buttons.dataTables.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/bower_components/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}">
 
     <!-- Data Table Css -->
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/assets/pages/data-table/css/buttons.dataTables.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{URL::to('files/bower_components/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/pages/data-table/css/buttons.dataTables.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/bower_components/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') }}">
 
-    <!-- add multile form -->
-    <script src="{{URL::to('files/assets/js/jquery-2.2.0-jquery.min.js')}}"></script>
+    <!-- CSRF Token for AJAX requests -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <!-- Volunteer Dashboard CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('files/assets/css/volunteer-dashboard.css') }}">
+
+    <!-- Volunteer Dashboard JavaScript -->
+    <script src="{{ asset('files/assets/js/volunteer-dashboard.js') }}" defer></script>
 
 </head>
 <style>
@@ -254,7 +261,7 @@
 
                                                         </div>
                                                         <div class="avatar-preview">
-                                                            <div id="imagePreview" style="background-image: url(../files/assets/images/{{ Auth::user()->avatar }});"></div>
+                                                            <div id="imagePreview" style="background-image: url(../files/assets/images/{{ Auth::user()?->avatar ?? 'avatar-1.jpg' }});"></div>
                                                         </div>
                                                         <h6 class="m-t-25 m-b-10"></h6>
                                                         <p class="text-muted"></p>
@@ -269,22 +276,22 @@
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <p class="m-b-10 f-w-600">Email</p>
-                                                        <h6 class="text-muted f-w-400">{{ Auth::user()->email }}<a href="#" class="cf_email" data-cfemail="1379767d6a53747e727a7f3d707c7e"></a></h6>
+                                                        <h6 class="text-muted f-w-400">{{ Auth::user()?->email ?? 'N/A' }}<a href="#" class="cf_email" data-cfemail="1379767d6a53747e727a7f3d707c7e"></a></h6>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <p class="m-b-10 f-w-600">Department</p>
-                                                        <h6 class="text-muted f-w-400">{{ Auth::user()->department }}</h6>
+                                                        <h6 class="text-muted f-w-400">{{ Auth::user()?->department ?? 'N/A' }}</h6>
                                                     </div>
                                                 </div>
                                                 <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Section</h6>
                                                 <div class="row">
                                                     <div class="col-sm-6">
                                                         <p class="m-b-10 f-w-600">Division</p>
-                                                        <h6 class="text-muted f-w-400">{{ Auth::user()->division }}</h6>
+                                                        <h6 class="text-muted f-w-400">{{ Auth::user()?->division ?? 'N/A' }}</h6>
                                                     </div>
                                                     <div class="col-sm-6">
                                                         <p class="m-b-10 f-w-600">Role</p>
-                                                        <h6 class="text-muted f-w-400">{{ Auth::user()->role_name }}</h6>
+                                                        <h6 class="text-muted f-w-400">{{ Auth::user()?->role_name ?? 'N/A' }}</h6>
                                                     </div>
                                                 </div>
                                             </div>
@@ -329,46 +336,46 @@
     <!-- Chart js -->
     <script type="text/javascript" src="{{URL::to('files\bower_components\chart.js\js\Chart.js')}}"></script>
     <!-- amchart js -->
-    <script src="{{URL::to('files\assets\pages\widget\amchart\amcharts.js')}}"></script>
-    <script src="{{URL::to('files\assets\pages\widget\amchart\serial.js')}}"></script>
-    <script src="{{URL::to('files\assets\pages\widget\amchart\light.js')}}"></script>
-    <script src="{{URL::to('files\assets\js\jquery.mCustomScrollbar.concat.min.js')}}"></script>
-    <script type="text/javascript" src="..\files\assets\js\SmoothScroll.js')}}"></script>
-    <script src="{{URL::to('files\assets\js\pcoded.min.js')}}"></script>
+    <script src="{{ asset('files/assets/pages/widget/amchart/amcharts.js') }}"></script>
+    <script src="{{ asset('files/assets/pages/widget/amchart/serial.js') }}"></script>
+    <script src="{{ asset('files/assets/pages/widget/amchart/light.js') }}"></script>
+    <script src="{{ asset('files/assets/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('files/assets/js/SmoothScroll.js') }}"></script>
+    <script src="{{ asset('files/assets/js/pcoded.min.js') }}"></script>
     <!-- custom js -->
 
     <!-- data-table js -->
-    <script src="{{URL::to('files/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
-    <script src="{{URL::to('files/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js')}}"></script>
-    <script src="{{URL::to('files/assets/pages/data-table/js/jszip.min.js')}}"></script>
-    <script src="{{URL::to('files/assets/pages/data-table/js/pdfmake.min.js')}}"></script>
-    <script src="{{URL::to('files/assets/pages/data-table/js/vfs_fonts.js')}}"></script>
-    <script src="{{URL::to('files/bower_components/datatables.net-buttons/js/buttons.print.min.js')}}"></script>
-    <script src="{{URL::to('files/bower_components/datatables.net-buttons/js/buttons.html5.min.js')}}"></script>
-    <script src="{{URL::to('files/bower_components/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{URL::to('files/bower_components/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{URL::to('files/bower_components/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js')}}"></script>
+    <script src="{{ asset('files/bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('files/bower_components/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('files/assets/pages/data-table/js/jszip.min.js') }}"></script>
+    <script src="{{ asset('files/assets/pages/data-table/js/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('files/assets/pages/data-table/js/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('files/bower_components/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('files/bower_components/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('files/bower_components/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('files/bower_components/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('files/bower_components/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') }}"></script>
 
     <!-- pnotify js -->
-    <script type="text/javascript" src="{{URL::to('files/bower_components/pnotify/js/pnotify.js')}}"></script>
-    <script type="text/javascript" src="{{URL::to('files/bower_components/pnotify/js/pnotify.desktop.js')}}"></script>
-    <script type="text/javascript" src="{{URL::to('files/bower_components/pnotify/js/pnotify.buttons.js')}}"></script>
-    <script type="text/javascript" src="{{URL::to('files/bower_components/pnotify/js/pnotify.confirm.js')}}"></script>
-    <script type="text/javascript" src="{{URL::to('files/bower_components/pnotify/js/pnotify.callbacks.js')}}"></script>
-    <script type="text/javascript" src="{{URL::to('files/bower_components/pnotify/js/pnotify.animate.js')}}"></script>
-    <script type="text/javascript" src="{{URL::to('files/bower_components/pnotify/js/pnotify.history.js')}}"></script>
-    <script type="text/javascript" src="{{URL::to('files/bower_components/pnotify/js/pnotify.mobile.js')}}"></script>
-    <script type="text/javascript" src="{{URL::to('files/bower_components/pnotify/js/pnotify.nonblock.js')}}"></script>
-    <script type="text/javascript" src="{{URL::to('files/assets/pages/pnotify/notify.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('files/bower_components/pnotify/js/pnotify.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('files/bower_components/pnotify/js/pnotify.desktop.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('files/bower_components/pnotify/js/pnotify.buttons.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('files/bower_components/pnotify/js/pnotify.confirm.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('files/bower_components/pnotify/js/pnotify.callbacks.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('files/bower_components/pnotify/js/pnotify.animate.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('files/bower_components/pnotify/js/pnotify.history.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('files/bower_components/pnotify/js/pnotify.mobile.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('files/bower_components/pnotify/js/pnotify.nonblock.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('files/assets/pages/pnotify/notify.js') }}"></script>
 
     <!-- table js -->
-    <script src="{{URL::to('files/assets/pages/data-table/js/data-table-custom.js')}}"></script>
-    <script src="{{URL::to('files/bower_components/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-    <script src="{{URL::to('files/bower_components/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{ asset('files/assets/pages/data-table/js/data-table-custom.js') }}"></script>
+    <script src="{{ asset('files/bower_components/datatables.net-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('files/bower_components/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
 
-    <script src="{{URL::to('files\assets\js\vartical-layout.min.js')}}"></script>
-    <script type="text/javascript" src="{{URL::to('files\assets\pages\dashboard\custom-dashboard.js')}}"></script>
-    <script type="text/javascript" src="{{URL::to('files\assets\js\script.min.js')}}"></script>
+    <script src="{{ asset('files/assets/js/vartical-layout.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('files/assets/pages/dashboard/custom-dashboard.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('files/assets/js/script.min.js') }}"></script>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
 <script>
@@ -397,11 +404,13 @@
         if( hrs > 12 )
         {
             hrs = hrs - 12;
-            document.querySelector( '#clock .period' ).innerHTML = 'PM';
+            const periodElement = document.querySelector( '#clock .period' );
+            if (periodElement) periodElement.innerHTML = 'PM';
         }
         else
         {
-            document.querySelector( '#clock .period' ).innerHTML = 'AM';
+            const periodElement = document.querySelector( '#clock .period' );
+            if (periodElement) periodElement.innerHTML = 'AM';
         }
         // Pad the single digit units by 0
         hrs     = hrs < 10 ? "0" + hrs : hrs;
@@ -409,10 +418,15 @@
         secs    = secs < 10 ? "0" + secs : secs;
 
 // Refresh the unit values
-        document.querySelector( '#clock .day' ).innerHTML       = weekDays[ day ];
-        document.querySelector( '#clock .hours' ).innerHTML     = hrs;
-        document.querySelector( '#clock .minutes' ).innerHTML   = mins;
-        document.querySelector( '#clock .seconds' ).innerHTML   = secs;
+        const dayElement = document.querySelector( '#clock .day' );
+        const hoursElement = document.querySelector( '#clock .hours' );
+        const minutesElement = document.querySelector( '#clock .minutes' );
+        const secondsElement = document.querySelector( '#clock .seconds' );
+        
+        if (dayElement) dayElement.innerHTML = weekDays[ day ];
+        if (hoursElement) hoursElement.innerHTML = hrs;
+        if (minutesElement) minutesElement.innerHTML = mins;
+        if (secondsElement) secondsElement.innerHTML = secs;
 
     // Refresh the clock every 1 second
     requestAnimationFrame( clockTicker );
@@ -421,6 +435,38 @@
     clockTicker();
 </script>
 
+    <script>
+        // Real-time notification polling
+        function updateNotificationCount() {
+            fetch('/notifications/unread-count')
+                .then(response => response.json())
+                .then(data => {
+                    const badge = document.querySelector('.pcoded-mtext:contains("Notifications")').closest('a').querySelector('.badge');
+                    if (data.count > 0) {
+                        if (badge) {
+                            badge.textContent = data.count;
+                        } else {
+                            const link = document.querySelector('.pcoded-mtext:contains("Notifications")').closest('a');
+                            const newBadge = document.createElement('span');
+                            newBadge.className = 'badge badge-danger badge-pill ml-auto';
+                            newBadge.textContent = data.count;
+                            link.appendChild(newBadge);
+                        }
+                    } else {
+                        if (badge) {
+                            badge.remove();
+                        }
+                    }
+                })
+                .catch(error => console.error('Error updating notification count:', error));
+        }
+
+        // Update notification count every 30 seconds
+        setInterval(updateNotificationCount, 30000);
+
+        // Update on page load
+        document.addEventListener('DOMContentLoaded', updateNotificationCount);
+    </script>
 
  @yield('script')
 

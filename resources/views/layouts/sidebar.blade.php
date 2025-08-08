@@ -62,7 +62,25 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('tasks.dependencies.form', ['id' => 1]) }}">
+                                <a href="{{ route('task-events.index') }}">
+                                    <span class="pcoded-micon"><i class="feather icon-activity"></i></span>
+                                    <span class="pcoded-mtext">Task Events</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('progress.index') }}">
+                                    <span class="pcoded-micon"><i class="feather icon-trending-up"></i></span>
+                                    <span class="pcoded-mtext">تتبع التقدم</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('progress.calendar') }}">
+                                    <span class="pcoded-micon"><i class="feather icon-calendar"></i></span>
+                                    <span class="pcoded-mtext">تقويم المواعيد</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('tasks.index') }}">
                                     <span class="pcoded-micon"><i class="feather icon-link"></i></span>
                                     <span class="pcoded-mtext">Task Dependencies</span>
                                 </a>
@@ -89,6 +107,7 @@
                                 </a>
                             </li>
                         </ul>
+
                         <div class="pcoded-navigatio-lavel">Documents</div>
                         <ul class="pcoded-item pcoded-left-item">
                             <li>
@@ -137,6 +156,7 @@
                                 <a href="{{ route('submissions.create') }}">
                                     <span class="pcoded-micon"><i class="feather icon-plus"></i></span>
                                     <span class="pcoded-mtext">Create Submission</span>
+
                                 </a>
                             </li>
                         </ul>

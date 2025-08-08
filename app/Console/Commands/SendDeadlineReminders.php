@@ -3,8 +3,11 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Services\NotificationService;
 use App\Models\Task;
-use App\Notifications\DeadlineReminderNotification;
+use App\Events\TaskDeadlineApproaching;
+use App\Events\TaskOverdue;
+use Carbon\Carbon;
 
 class SendDeadlineReminders extends Command
 {
@@ -13,38 +16,103 @@ class SendDeadlineReminders extends Command
      *
      * @var string
      */
-    protected $signature = 'app:send-deadline-reminders';
+    protected $signature = 'notifications:send-deadline-reminders';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'إرسال تذكيرات المواعيد النهائية للمهام';
+
+    protected $notificationService;
 
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(NotificationService $notificationService)
     {
-        // جلب المهام التي موعدها النهائي خلال 3 أيام ولم تكتمل
-        $tasks = Task::whereNotNull('deadline')
-            ->where('status', '!=', Task::STATUS_COMPLETED)
-            ->whereDate('deadline', '>=', now()->toDateString())
-            ->whereDate('deadline', '<=', now()->addDays(3)->toDateString())
-            ->with('assignments.user')
+        $this->notificationService = $notificationService;
+        
+        $this->info('بدء إرسال تذكيرات المواعيد النهائية...');
+        
+        try {
+            // Send deadline reminders for approaching deadlines
+            $this->sendApproachingDeadlineReminders();
+            
+            // Send overdue notifications
+            $this->sendOverdueNotifications();
+            
+            $this->info('تم إرسال تذكيرات المواعيد النهائية بنجاح!');
+        } catch (\Exception $e) {
+            $this->error('حدث خطأ أثناء إرسال التذكيرات: ' . $e->getMessage());
+            return 1;
+        }
+        
+        return 0;
+    }
+
+    /**
+     * Send reminders for approaching deadlines
+     */
+    private function sendApproachingDeadlineReminders()
+    {
+        $tasks = Task::where('status', '!=', 'completed')
+            ->where('status', '!=', 'cancelled')
+            ->where('deadline', '>=', Carbon::now())
+            ->where('deadline', '<=', Carbon::now()->addDays(7))
+            ->with(['assignments.user'])
             ->get();
 
-        $remindersSent = 0;
+        $count = 0;
         foreach ($tasks as $task) {
             foreach ($task->assignments as $assignment) {
                 $user = $assignment->user;
-                if ($user) {
-                    $user->notify(new DeadlineReminderNotification($task, $user));
-                    $remindersSent++;
+                $settings = $user->getNotificationSettings();
+                
+                if ($settings->isDeadlineReminderNotificationsEnabled()) {
+                    $daysLeft = Carbon::now()->diffInDays($task->deadline, false);
+                    
+                    // إرسال الإشعار فقط إذا كان عدد الأيام المتبقية يساوي أو أقل من الإعداد
+                    if ($daysLeft <= $settings->deadline_reminder_days) {
+                        // Dispatch event for deadline approaching
+                        event(new TaskDeadlineApproaching($task, $daysLeft));
+                        $count++;
+                    }
                 }
             }
         }
-        $this->info("تم إرسال {$remindersSent} تذكير للمهام التي اقترب موعدها النهائي.");
+        
+        $this->info("تم إرسال {$count} تذكير للمواعيد النهائية القريبة");
+    }
+
+    /**
+     * Send notifications for overdue tasks
+     */
+    private function sendOverdueNotifications()
+    {
+        $tasks = Task::where('status', '!=', 'completed')
+            ->where('status', '!=', 'cancelled')
+            ->where('deadline', '<', Carbon::now())
+            ->with(['assignments.user'])
+            ->get();
+
+        $count = 0;
+        foreach ($tasks as $task) {
+            foreach ($task->assignments as $assignment) {
+                $user = $assignment->user;
+                $settings = $user->getNotificationSettings();
+                
+                if ($settings->isDeadlineReminderNotificationsEnabled()) {
+                    $daysOverdue = Carbon::now()->diffInDays($task->deadline);
+                    
+                    // Send overdue notification
+                    event(new TaskOverdue($task, $daysOverdue));
+                    $count++;
+                }
+            }
+        }
+        
+        $this->info("تم إرسال {$count} إشعار للمهام المتأخرة");
     }
 }

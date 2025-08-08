@@ -37,6 +37,7 @@ class DatabaseSeeder extends Seeder
         // Call Task Management Seeder
         $this->call([
             TaskManagementSeeder::class,
+            ProgressTestDataSeeder::class,
         ]);
     }
 

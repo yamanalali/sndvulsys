@@ -1,0 +1,516 @@
+/* Volunteer Dashboard Styles */
+.volunteer-card {
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: none;
+    overflow: hidden;
+}
+
+.volunteer-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}
+
+.progress-circle {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+}
+
+.progress-circle svg {
+    transform: rotate(-90deg);
+}
+
+.progress-circle circle {
+    fill: none;
+    stroke-width: 8;
+    stroke-linecap: round;
+}
+
+.progress-circle .bg {
+    stroke: #e9ecef;
+}
+
+.progress-circle .progress {
+    stroke: #007bff;
+    transition: stroke-dasharray 0.5s ease;
+}
+
+.calendar-container {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.calendar-day:hover {
+    background-color: #f8f9fa;
+    transform: scale(1.05);
+}
+
+.calendar-day.has-tasks {
+    background-color: #e3f2fd;
+    border-color: #2196f3;
+}
+
+.calendar-day.today {
+    background-color: #fff3cd;
+    border-color: #ffc107;
+    font-weight: bold;
+}
+
+.task-indicators {
+    position: absolute;
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+}
+
+.task-indicator {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #007bff;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.stat-card .stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.stat-card .stat-label {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* Priority Visualization Styles */
+.priority-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.priority-badge:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.priority-badge.urgent {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+    color: white;
+    animation: pulse-urgent 2s infinite;
+}
+
+.priority-badge.high {
+    background: linear-gradient(135deg, #ffa726, #ff9800);
+    color: white;
+    animation: pulse-high 3s infinite;
+}
+
+.priority-badge.medium {
+    background: linear-gradient(135deg, #42a5f5, #2196f3);
+    color: white;
+}
+
+.priority-badge.low {
+    background: linear-gradient(135deg, #66bb6a, #4caf50);
+    color: white;
+}
+
+.priority-icon {
+    font-size: 1.1rem;
+    animation: bounce 2s infinite;
+}
+
+@keyframes pulse-urgent {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+@keyframes pulse-high {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.8; }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-3px); }
+    60% { transform: translateY(-2px); }
+}
+
+/* Reminder System Styles */
+.reminder-indicator {
+    position: relative;
+    display: inline-block;
+}
+
+.reminder-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: white;
+    animation: pulse-reminder 1.5s infinite;
+}
+
+.reminder-badge.overdue {
+    background: #dc3545;
+    animation: shake 0.5s infinite;
+}
+
+.reminder-badge.critical {
+    background: #dc3545;
+    animation: pulse-urgent 1s infinite;
+}
+
+.reminder-badge.urgent {
+    background: #fd7e14;
+    animation: pulse-high 2s infinite;
+}
+
+.reminder-badge.warning {
+    background: #ffc107;
+    color: #212529;
+}
+
+.reminder-badge.normal {
+    background: #28a745;
+}
+
+@keyframes pulse-reminder {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+}
+
+/* Completion Interface Styles */
+.completion-interface {
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.completion-progress {
+    position: relative;
+    height: 8px;
+    background: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 15px 0;
+}
+
+.completion-progress-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+    position: relative;
+}
+
+.completion-progress-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.completion-button {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 30px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+
+.completion-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+}
+
+.completion-button:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.completion-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.completion-status.completed {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+}
+
+.completion-status.near_completion {
+    background: linear-gradient(135deg, #20c997, #17a2b8);
+    color: white;
+}
+
+.completion-status.half_completed {
+    background: linear-gradient(135deg, #17a2b8, #6f42c1);
+    color: white;
+}
+
+.completion-status.started {
+    background: linear-gradient(135deg, #ffc107, #fd7e14);
+    color: #212529;
+}
+
+.completion-status.not_started {
+    background: #6c757d;
+    color: white;
+}
+
+/* Task Card Enhancements */
+.task-card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+}
+
+.task-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.task-card .card-header {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-bottom: 1px solid #dee2e6;
+    padding: 15px 20px;
+}
+
+.task-card .card-body {
+    padding: 20px;
+}
+
+.task-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.task-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.task-action-btn {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.task-action-btn.primary {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+}
+
+.task-action-btn.success {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+}
+
+.task-action-btn.warning {
+    background: linear-gradient(135deg, #ffc107, #fd7e14);
+    color: #212529;
+}
+
+.task-action-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Notification Styles */
+.notification-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    padding: 15px 20px;
+    min-width: 300px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.notification-toast.show {
+    transform: translateX(0);
+}
+
+.notification-toast.success {
+    border-left: 4px solid #28a745;
+}
+
+.notification-toast.warning {
+    border-left: 4px solid #ffc107;
+}
+
+.notification-toast.error {
+    border-left: 4px solid #dc3545;
+}
+
+.notification-toast.info {
+    border-left: 4px solid #17a2b8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .calendar-grid {
+        grid-template-columns: repeat(7, 1fr);
+        gap: 2px;
+    }
+    
+    .calendar-day {
+        font-size: 0.8rem;
+        padding: 3px;
+    }
+    
+    .task-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .task-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .task-action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .notification-toast {
+        left: 20px;
+        right: 20px;
+        min-width: auto;
+    }
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .volunteer-card,
+    .calendar-container,
+    .completion-interface,
+    .task-card {
+        background: #2d3748;
+        color: #e2e8f0;
+    }
+    
+    .calendar-day {
+        border-color: #4a5568;
+        color: #e2e8f0;
+    }
+    
+    .calendar-day:hover {
+        background-color: #4a5568;
+    }
+    
+    .notification-toast {
+        background: #2d3748;
+        color: #e2e8f0;
+    }
+} 

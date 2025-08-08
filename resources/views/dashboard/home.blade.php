@@ -7,7 +7,7 @@
                 <h4 class="mb-0">Welcome to the Dashboard</h4>
             </div>
             <div class="card-body">
-                <p class="lead">Hello, <strong>{{ Auth::user()->name }}</strong>!</p>
+                <p class="lead">Hello, <strong>{{ Auth::user()?->name ?? 'Guest' }}</strong>!</p>
                 <p>You're logged in. This is your dashboard home page. Use the sidebar to navigate through the system features.</p>
                 <hr>
                 <div class="row text-center">

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class WorkflowController extends Controller
 {
+
     public function index() {
         $workflows = Workflow::with(['volunteerRequest', 'reviewer', 'assignedTo'])
             ->orderBy('created_at', 'desc')
@@ -21,6 +22,7 @@ class WorkflowController extends Controller
         $priorities = Workflow::getPriorities();
         
         return view('workflows.index', compact('workflows', 'statuses', 'steps', 'priorities'));
+
     }
 
     public function create() {
@@ -115,6 +117,7 @@ class WorkflowController extends Controller
 
     public function destroy($id) {
         $workflow = Workflow::findOrFail($id);
+
         $workflow->delete();
         return redirect()->route('workflows.index')->with('success', 'تم الحذف بنجاح');
     }
