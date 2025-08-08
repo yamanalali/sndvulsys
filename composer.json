@@ -7,6 +7,7 @@
     "require": {
         "php": "^8.2",
         "brian2694/laravel-toastr": "^5.59",
+        "google/apiclient": "*",
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
         "laravel/ui": "^4.5",
