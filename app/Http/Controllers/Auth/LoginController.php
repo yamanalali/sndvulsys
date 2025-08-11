@@ -68,17 +68,17 @@ class LoginController extends Controller
             if (Auth::attempt(['email'=> $username,'password'=> $password])) {
                 /** get session */
                 $user = Auth::User();
-                Session::put('name', $user->name);
-                Session::put('email', $user->email);
-                Session::put('user_id', $user->user_id);
-                Session::put('join_date', $user->join_date);
-                Session::put('last_login', $user->join_date);
-                Session::put('phone_number', $user->phone_number);
-                Session::put('status', $user->status);
-                Session::put('role_name', $user->role_name);
-                Session::put('avatar', $user->avatar);
-                Session::put('position', $user->position);
-                Session::put('department', $user->department);
+                Session::put('name', $user->name ?? '');
+                Session::put('email', $user->email ?? '');
+                Session::put('user_id', $user->user_id ?? $user->id);
+                Session::put('join_date', $user->join_date ?? '');
+                Session::put('last_login', $user->last_login ?? '');
+                Session::put('phone_number', $user->phone_number ?? '');
+                Session::put('status', $user->status ?? 'active');
+                Session::put('role_name', $user->role_name ?? 'user');
+                Session::put('avatar', $user->avatar ?? 'avatar-1.jpg');
+                Session::put('position', $user->position ?? '');
+                Session::put('department', $user->department ?? '');
 
                 $updateLastLogin = ['last_login' => $todayDate,];
                 User::where('email',$username)->update($updateLastLogin);

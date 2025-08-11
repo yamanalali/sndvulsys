@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('title', 'إدارة سير العمل')
@@ -214,6 +215,7 @@
                 <div class="card-body text-center">
                     <h3>{{ $workflows->where('status', 'completed')->count() }}</h3>
                     <p>مكتمل</p>
+
                 </div>
             </div>
         </div>

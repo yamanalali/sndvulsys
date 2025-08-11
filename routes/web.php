@@ -19,13 +19,7 @@ use App\Http\Controllers\AdvancedSearchController;
 use Illuminate\Http\Request;
 use App\Models\Task;
 
-/** for side bar menu active */
-function set_active($route) {
-    if (is_array($route )){
-        return in_array(Request::path(), $route) ? 'active' : '';
-    }
-    return Request::path() == $route ? 'active' : '';
-}
+
 
 Route::get('/', function () {
     return view('auth.login');
@@ -283,14 +277,21 @@ Route::resource('tasks', TaskController::class);
 
 // راوتات إضافية للمهام بعد resource لتجنب التضارب
 Route::post('/tasks/{task}/status', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus');
-Route::get('/tasks/{id}/dependencies', [TaskController::class, 'showDependenciesForm'])->name('tasks.dependencies.form');
-Route::post('/tasks/{id}/dependencies', [TaskController::class, 'storeDependency'])->name('tasks.dependencies.store');
+Route::get('/tasks/{task}/dependencies', [TaskController::class, 'showDependenciesForm'])->name('tasks.dependencies.form');
+Route::post('/tasks/{task}/dependencies', [TaskController::class, 'storeDependency'])->name('tasks.dependencies.store');
+Route::delete('/tasks/{task}/dependencies/{dependency}', [TaskController::class, 'destroyDependency'])->name('tasks.dependencies.destroy');
 Route::post('/tasks/{task}/assign', [App\Http\Controllers\TaskController::class, 'assign'])->name('tasks.assign');
+
+// راوتات تتبع التقدم للمهام
+Route::post('/tasks/{task}/progress', [TaskController::class, 'updateProgress'])->name('tasks.updateProgress');
+Route::get('/tasks/{task}/progress-history', [TaskController::class, 'progressHistory'])->name('tasks.progressHistory');
+Route::get('/tasks/{task}/progress-stats', [TaskController::class, 'progressStats'])->name('tasks.progressStats');
 
 // Projects routes
 Route::resource('projects', ProjectController::class);
 Route::get('/projects/my-projects', [ProjectController::class, 'myProjects'])->name('projects.my-projects');
 Route::get('/projects/team-tasks', [ProjectController::class, 'teamTasks'])->name('projects.team-tasks');
+
 
 // المستندات - نظام تخزين المستندات
 Route::middleware(['auth'])->group(function () {
@@ -323,6 +324,7 @@ Route::prefix('advanced-search')->group(function () {
     Route::get('/popular-searches', [AdvancedSearchController::class, 'getPopularSearches'])->name('advanced-search.popular-searches');
     Route::get('/statistics', [AdvancedSearchController::class, 'getStatistics'])->name('advanced-search.statistics');
     Route::get('/export', [AdvancedSearchController::class, 'exportResults'])->name('advanced-search.export');
+
 });
 
 // API routes for tasks (CRUD)
@@ -380,6 +382,61 @@ Route::prefix('api/tasks')->group(function () {
         return response()->json(['message' => 'Task deleted successfully']);
     });
 });
+////
+// Task Events routes
+Route::prefix('task-events')->name('task-events.')->middleware('auth')->group(function () {
+    Route::get('/', [App\Http\Controllers\TaskEventController::class, 'index'])->name('index');
+    Route::get('/{task}', [App\Http\Controllers\TaskEventController::class, 'show'])->name('show');
+    Route::get('/export', [App\Http\Controllers\TaskEventController::class, 'export'])->name('export');
+});
+
+// Volunteer Dashboard routes
+Route::prefix('volunteer')->name('volunteer.')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\VolunteerDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/calendar', [App\Http\Controllers\VolunteerDashboardController::class, 'calendar'])->name('calendar');
+    Route::get('/upcoming-tasks', [App\Http\Controllers\VolunteerDashboardController::class, 'upcomingTasks'])->name('upcoming-tasks');
+    Route::get('/statistics', [App\Http\Controllers\VolunteerDashboardController::class, 'statistics'])->name('statistics');
+});
+
+// Task History and Timeline routes
+Route::prefix('task-history')->name('task-history.')->middleware('auth')->group(function () {
+    Route::get('/', [App\Http\Controllers\TaskHistoryController::class, 'index'])->name('index');
+    Route::get('/timeline/{task}', [App\Http\Controllers\TaskHistoryController::class, 'timeline'])->name('timeline');
+    Route::get('/archive', [App\Http\Controllers\TaskHistoryController::class, 'archive'])->name('archive');
+    Route::post('/restore/{task}', [App\Http\Controllers\TaskHistoryController::class, 'restore'])->name('restore');
+    Route::post('/archive/{task}', [App\Http\Controllers\TaskHistoryController::class, 'archiveTask'])->name('archive-task');
+    Route::get('/history/{task}', [App\Http\Controllers\TaskHistoryController::class, 'getTaskHistory'])->name('get-history');
+    Route::get('/activity-summary', [App\Http\Controllers\TaskHistoryController::class, 'activitySummary'])->name('activity-summary');
+    Route::get('/export', [App\Http\Controllers\TaskHistoryController::class, 'export'])->name('export');
+});
+
+// Progress routes
+Route::prefix('progress')->name('progress.')->middleware('auth')->group(function () {
+    Route::get('/', [App\Http\Controllers\ProgressController::class, 'index'])->name('index');
+    Route::get('/calendar', [App\Http\Controllers\ProgressController::class, 'calendar'])->name('calendar');
+    Route::get('/project/{project}', [App\Http\Controllers\ProgressController::class, 'projectProgress'])->name('project');
+});
+
+// Test route for status update
+Route::get('/test-status-update/{task?}', function($taskId = null) {
+    $task = $taskId ? \App\Models\Task::find($taskId) : \App\Models\Task::first();
+    return view('test-status-update', compact('task'));
+})->name('test.status.update');
+
+// Recurring Task routes
+Route::prefix('recurring-tasks')->name('recurring-tasks.')->middleware('auth')->group(function () {
+    Route::get('/', [App\Http\Controllers\RecurringTaskController::class, 'index'])->name('index');
+    Route::get('/statistics', [App\Http\Controllers\RecurringTaskController::class, 'statistics'])->name('statistics');
+    Route::post('/preview', [App\Http\Controllers\RecurringTaskController::class, 'preview'])->name('preview');
+    Route::get('/{task}', [App\Http\Controllers\RecurringTaskController::class, 'show'])->name('show');
+    Route::get('/{task}/edit', [App\Http\Controllers\RecurringTaskController::class, 'edit'])->name('edit');
+    Route::put('/{task}', [App\Http\Controllers\RecurringTaskController::class, 'update'])->name('update');
+    Route::post('/{task}/generate', [App\Http\Controllers\RecurringTaskController::class, 'generate'])->name('generate');
+    Route::post('/{task}/toggle-active', [App\Http\Controllers\RecurringTaskController::class, 'toggleActive'])->name('toggle-active');
+    Route::get('/{task}/exceptions', [App\Http\Controllers\RecurringTaskController::class, 'exceptions'])->name('exceptions');
+    Route::post('/{task}/exceptions', [App\Http\Controllers\RecurringTaskController::class, 'createException'])->name('exceptions.create');
+    Route::delete('/{task}/exceptions/{exception}', [App\Http\Controllers\RecurringTaskController::class, 'deleteException'])->name('exceptions.delete');
+});
 
 // Test route to clear duplicate national IDs
 Route::get('/clear-test-data', function () {
@@ -400,17 +457,13 @@ Route::get('/link-skills-to-volunteers', function () {
         return redirect()->back()->with('error', 'لا توجد مهارات');
     }
     
-    // ربط كل طلب تطوع بالمهارات المتاحة
     foreach ($volunteerRequests as $request) {
-        // حذف الروابط الموجودة أولاً
         $request->skills()->detach();
         
-        // تحديد عدد المهارات المراد ربطها (لا يزيد عن عدد المهارات المتاحة)
         $maxSkills = min(3, $skills->count());
         $minSkills = min(2, $maxSkills);
         $numSkills = rand($minSkills, $maxSkills);
         
-        // إضافة روابط جديدة
         $randomSkills = $skills->random($numSkills);
         foreach ($randomSkills as $skill) {
             $request->skills()->attach($skill->id, [
@@ -425,3 +478,4 @@ Route::get('/link-skills-to-volunteers', function () {
 
 // Route to toggle skill status
 Route::patch('/skills/{id}/toggle-status', [\App\Http\Controllers\SkillController::class, 'toggleStatus'])->name('skills.toggle-status');
+

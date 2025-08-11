@@ -89,6 +89,7 @@ class User extends Authenticatable
         return $this->hasManyThrough(\App\Models\Task::class, \App\Models\Assignment::class, 'user_id', 'id', 'id', 'task_id');
     }
 
+
     // علاقة مع المستندات المملوكة
     public function documents()
     {
@@ -180,5 +181,6 @@ class User extends Authenticatable
     public function grantDocumentPermission($documentId, $permissionType, $expiresAt = null)
     {
         return DocumentPermission::grantPermission($this->id, $documentId, $permissionType, 'direct', $expiresAt);
+
     }
 }
