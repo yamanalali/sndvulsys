@@ -1,11 +1,289 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container" dir="rtl">
+<style>
+    /* RTL Styles for Volunteer Request Form */
+    .rtl-volunteer-form {
+        direction: rtl;
+        text-align: right;
+        font-family: 'Cairo', 'Amiri', 'Arabic Typesetting', 'Tahoma', sans-serif;
+    }
+    
+    .rtl-volunteer-form .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .rtl-volunteer-form h2 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 30px;
+        font-weight: bold;
+        font-size: 28px;
+        border-bottom: 3px solid #3498db;
+        padding-bottom: 15px;
+    }
+    
+    .rtl-volunteer-form h4.sub-title {
+        color: #34495e;
+        margin-bottom: 25px;
+        font-size: 20px;
+        text-align: center;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        padding: 15px;
+        border-radius: 8px;
+        border-right: 4px solid #3498db;
+    }
+    
+    .rtl-volunteer-form .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .rtl-volunteer-form .form-group label {
+        font-weight: bold;
+        color: #2c3e50;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+    
+    .rtl-volunteer-form .form-control {
+        direction: rtl;
+        text-align: right;
+        border: 2px solid #e1e8ed;
+        border-radius: 6px;
+        padding: 12px 15px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background-color: #fff;
+    }
+    
+    .rtl-volunteer-form .form-control:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+        outline: none;
+    }
+    
+    .rtl-volunteer-form .form-control::placeholder {
+        text-align: right;
+        color: #95a5a6;
+        font-style: italic;
+    }
+    
+    .rtl-volunteer-form select.form-control {
+        background-position: left 12px center;
+        padding-left: 40px;
+    }
+    
+    .rtl-volunteer-form textarea.form-control {
+        resize: vertical;
+        min-height: 100px;
+    }
+    
+    /* Radio buttons and checkboxes RTL styling */
+    .rtl-volunteer-form .form-check {
+        text-align: right;
+        padding-right: 0;
+        padding-left: 1.25rem;
+        margin-bottom: 10px;
+    }
+    
+    .rtl-volunteer-form .form-check-input {
+        margin-right: -1.25rem;
+        margin-left: 0;
+        float: right;
+        transform: scale(1.2);
+        cursor: pointer;
+    }
+    
+    .rtl-volunteer-form .form-check-input:checked {
+        background-color: #3498db;
+        border-color: #3498db;
+    }
+    
+    .rtl-volunteer-form .form-check-input:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.25);
+    }
+    
+    .rtl-volunteer-form .form-check-label {
+        padding-right: 15px;
+        padding-left: 0;
+        color: #2c3e50;
+        margin-right: 0.5rem;
+        cursor: pointer;
+        user-select: none;
+    }
+    
+    .rtl-volunteer-form .form-check {
+        padding-right: 1.5rem;
+        padding-left: 0;
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Skills container styling */
+    .rtl-volunteer-form .skills-container label {
+        display: inline-block;
+        margin: 5px 10px 5px 0;
+        padding: 8px 12px;
+        border: 1px solid #e3e6f0;
+        border-radius: 6px;
+        background: #f8f9fa;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .rtl-volunteer-form .skills-container label:hover {
+        background: #e3f2fd;
+        border-color: #3498db;
+    }
+    
+    .rtl-volunteer-form .skills-container input[type="checkbox"] {
+        margin-left: 8px;
+        margin-right: 0;
+        transform: scale(1.2);
+    }
+    
+    .rtl-volunteer-form .skills-container input[type="checkbox"]:checked + span {
+        color: #3498db;
+        font-weight: 600;
+    }
+    
+    .rtl-volunteer-form .form-check-inline {
+        margin-left: 0;
+        margin-right: 0.75rem;
+    }
+    
+    /* Skills checkboxes styling */
+    .rtl-volunteer-form .skills-container {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #e9ecef;
+    }
+    
+    .rtl-volunteer-form .skills-container label {
+        display: inline-block;
+        margin: 5px 10px 5px 0;
+        padding: 8px 12px;
+        background: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: normal;
+    }
+    
+    .rtl-volunteer-form .skills-container label:hover {
+        background: #e3f2fd;
+        border-color: #3498db;
+    }
+    
+    .rtl-volunteer-form .skills-container input[type="checkbox"] {
+        margin-left: 5px;
+        margin-right: 0;
+    }
+    
+    .rtl-volunteer-form .skills-container input[type="checkbox"]:checked + span {
+        color: #3498db;
+        font-weight: bold;
+    }
+    
+    /* Language section styling */
+    .rtl-volunteer-form .language-section {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid #e9ecef;
+        margin-bottom: 20px;
+    }
+    
+    .rtl-volunteer-form .language-section .form-group label {
+        color: #495057;
+        margin-bottom: 5px;
+    }
+    
+    /* Submit button styling */
+    .rtl-volunteer-form .btn-primary {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        border: none;
+        padding: 12px 30px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        min-width: 150px;
+    }
+    
+    .rtl-volunteer-form .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+    }
+    
+    /* File upload styling */
+    .rtl-volunteer-form input[type="file"] {
+        direction: ltr;
+        text-align: left;
+    }
+    
+    .rtl-volunteer-form .file-upload-container {
+        background: #f8f9fa;
+        border: 2px dashed #dee2e6;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+    
+    .rtl-volunteer-form .file-upload-container:hover {
+        border-color: #3498db;
+        background: #e3f2fd;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .rtl-volunteer-form .container {
+            padding: 15px;
+        }
+        
+        .rtl-volunteer-form .col-sm-2,
+        .rtl-volunteer-form .col-sm-10 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+        
+        .rtl-volunteer-form .form-group.row .col-sm-2 {
+            margin-bottom: 5px;
+        }
+    }
+</style>
+
+<div class="rtl-volunteer-form">
+    <div class="container">
         <h2>إضافة طلب تطوع جديد</h2>
-    <div class="card-block" dir="rtl">
+    <div class="card-block">
         <h4 class="sub-title">نموذج طلب التطوع</h4>
-        <form method="POST" action="{{ route('volunteer-requests.store') }}" enctype="multipart/form-data" dir="rtl">
+        @if(session('success'))
+            <div class="alert alert-success">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-check-circle me-2"></i>
+                    <strong>{{ session('success') }}</strong>
+                </div>
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach($errors->all() as $error)
+                        <li><i class="fas fa-exclamation-triangle me-1"></i> {{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <form method="POST" action="{{ route('volunteer-requests.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">الاسم الكامل</label>
@@ -39,12 +317,15 @@
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">الجنس</label>
-                <div class="col-sm-10">
-                    <select name="gender" class="form-control">
-                        <option value="">اختر الجنس</option>
-                        <option value="male">ذكر</option>
-                        <option value="female">أنثى</option>
-                    </select>
+                <div class="col-sm-10 pt-2">
+                    <div class="form-check form-check-inline" style="margin-left: 15px;">
+                        <input class="form-check-input" type="radio" name="gender" value="male" id="gender_male" style="margin-left: 8px;">
+                        <label class="form-check-label" for="gender_male" style="margin-right: 20px;">ذكر</label>
+                    </div>
+                    <div class="form-check form-check-inline" style="margin-left: 15px;">
+                        <input class="form-check-input" type="radio" name="gender" value="female" id="gender_female" style="margin-left: 8px;">
+                        <label class="form-check-label" for="gender_female" style="margin-right: 20px;">أنثى</label>
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
@@ -52,11 +333,11 @@
                 <div class="col-sm-10 pt-2">
                     <div class="form-check form-check-inline" style="margin-left: 15px;">
                         <input class="form-check-input" type="radio" name="social_status" value="single" id="social_single" style="margin-left: 8px;">
-                        <label class="form-check-label" for="social_single" style="margin-right: 15px;">عازبة / أعزب</label>
+                        <label class="form-check-label" for="social_single" style="margin-right: 20px;">عازبة / أعزب</label>
                     </div>
                     <div class="form-check form-check-inline" style="margin-left: 15px;">
                         <input class="form-check-input" type="radio" name="social_status" value="married" id="social_married" style="margin-left: 8px;">
-                        <label class="form-check-label" for="social_married" style="margin-right: 15px;">متزوجة / متزوج</label>
+                        <label class="form-check-label" for="social_married" style="margin-right: 20px;">متزوجة / متزوج</label>
                     </div>
                 </div>
             </div>
@@ -108,96 +389,106 @@
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">المهارات</label>
-                <div class="col-sm-10" style="padding-top: 8px;">
-                    @if(isset($skills) && $skills->count() > 0)
-                        @foreach($skills as $skill)
-                            <label class="inline-flex items-center" style="margin-left: 15px;">
-                                <input type="checkbox" name="skills[]" value="{{ $skill->name }}" class="form-checkbox" />
-                                <span style="margin-right: 5px;">{{ $skill->name }}</span>
-                                <small class="text-muted">({{ $skill->category }})</small>
+                <div class="col-sm-10">
+                    <div class="skills-container">
+                        @if(isset($skills) && $skills->count() > 0)
+                            @foreach($skills as $skill)
+                                <label>
+                                    <input type="checkbox" name="skills[]" value="{{ $skill->name }}" />
+                                    <span>{{ $skill->name }}</span>
+                                    <small class="text-muted">({{ $skill->category }})</small>
+                                </label>
+                            @endforeach
+                        @else
+                            <!-- المهارات الافتراضية إذا لم تكن موجودة في قاعدة البيانات -->
+                            <label>
+                                <input type="checkbox" name="skills[]" value="العمل الجماعي" />
+                                <span>العمل الجماعي</span>
                             </label>
-                        @endforeach
-                    @else
-                        <!-- المهارات الافتراضية إذا لم تكن موجودة في قاعدة البيانات -->
-                        <label class="inline-flex items-center" style="margin-left: 15px;">
-                            <input type="checkbox" name="skills[]" value="العمل الجماعي" class="form-checkbox" />
-                            <span style="margin-right: 5px;">العمل الجماعي</span>
-                        </label>
-                        <label class="inline-flex items-center" style="margin-left: 15px;">
-                            <input type="checkbox" name="skills[]" value="القيادة" class="form-checkbox" />
-                            <span style="margin-right: 5px;">القيادة</span>
-                        </label>
-                        <label class="inline-flex items-center" style="margin-left: 15px;">
-                            <input type="checkbox" name="skills[]" value="التواصل" class="form-checkbox" />
-                            <span style="margin-right: 5px;">التواصل</span>
-                        </label>
-                        <label class="inline-flex items-center" style="margin-left: 15px;">
-                            <input type="checkbox" name="skills[]" value="التنظيم" class="form-checkbox" />
-                            <span style="margin-right: 5px;">التنظيم</span>
-                        </label>
-                        <label class="inline-flex items-center" style="margin-left: 15px;">
-                            <input type="checkbox" name="skills[]" value="حل المشكلات" class="form-checkbox" />
-                            <span style="margin-right: 5px;">حل المشكلات</span>
-                        </label>
-                        <label class="inline-flex items-center" style="margin-left: 15px;">
-                            <input type="checkbox" name="skills[]" value="استخدام الحاسوب" class="form-checkbox" />
-                            <span style="margin-right: 5px;">استخدام الحاسوب</span>
-                        </label>
-                        <label class="inline-flex items-center" style="margin-left: 15px;">
-                            <input type="checkbox" name="skills[]" value="التصميم" class="form-checkbox" />
-                            <span style="margin-right: 5px;">التصميم</span>
-                        </label>
-                        <label class="inline-flex items-center" style="margin-left: 15px;">
-                            <input type="checkbox" name="skills[]" value="الترجمة" class="form-checkbox" />
-                            <span style="margin-right: 5px;">الترجمة</span>
-                        </label>
-                        <label class="inline-flex items-center" style="margin-left: 15px;">
-                            <input type="checkbox" name="skills[]" value="البرمجة" class="form-checkbox" />
-                            <span style="margin-right: 5px;">البرمجة</span>
-                        </label>
-                    @endif
+                            <label>
+                                <input type="checkbox" name="skills[]" value="القيادة" />
+                                <span>القيادة</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="skills[]" value="التواصل" />
+                                <span>التواصل</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="skills[]" value="التنظيم" />
+                                <span>التنظيم</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="skills[]" value="حل المشكلات" />
+                                <span>حل المشكلات</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="skills[]" value="استخدام الحاسوب" />
+                                <span>استخدام الحاسوب</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="skills[]" value="التصميم" />
+                                <span>التصميم</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="skills[]" value="الترجمة" />
+                                <span>الترجمة</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="skills[]" value="البرمجة" />
+                                <span>البرمجة</span>
+                            </label>
+                        @endif
+                    </div>
                 </div>
             </div>
 
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">اللغات ومستوياتها</label>
+                <label class="col-sm-2 col-form-label">اللغات ومستوى الإتقان</label>
                 <div class="col-sm-10">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>العربية</label>
-                                <select name="languages[arabic]" class="form-control">
-                                    <option value="">اختر المستوى</option>
-                                    <option value="none">لا أتكلم هذه اللغة</option>
-                                    <option value="مبتدئ">مبتدئ</option>
-                                    <option value="متوسط">متوسط</option>
-                                    <option value="متقدم">متقدم</option>
-                                    <option value="ممتاز">ممتاز</option>
-                                    <option value="لغة أم">لغة أم</option>
-                                </select>
-                            </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="arabic_auth" class="form-label">العربية</label>
+                            <select name="languages[العربية]" class="form-control" id="arabic_auth">
+                                <option value="">اختر المستوى</option>
+                                <option value="لغة أم">لغة أم</option>
+                                <option value="ممتاز">ممتاز</option>
+                                <option value="جيد جداً">جيد جداً</option>
+                                <option value="جيد">جيد</option>
+                                <option value="مبتدئ">مبتدئ</option>
+                            </select>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>الإنجليزية</label>
-                                <select name="languages[english]" class="form-control">
-                                    <option value="">اختر المستوى</option>
-                                    <option value="none">لا أتكلم هذه اللغة</option>
-                                    <option value="مبتدئ">مبتدئ</option>
-                                    <option value="متوسط">متوسط</option>
-                                    <option value="متقدم">متقدم</option>
-                                    <option value="ممتاز">ممتاز</option>
-                                    <option value="لغة أم">لغة أم</option>
-                                </select>
-                            </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="english_auth" class="form-label">الإنجليزية</label>
+                            <select name="languages[الإنجليزية]" class="form-control" id="english_auth">
+                                <option value="">اختر المستوى</option>
+                                <option value="لغة أم">لغة أم</option>
+                                <option value="ممتاز">ممتاز</option>
+                                <option value="جيد جداً">جيد جداً</option>
+                                <option value="جيد">جيد</option>
+                                <option value="مبتدئ">مبتدئ</option>
+                            </select>
                         </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>أخرى</label>
-                                <input type="text" name="languages[other]" class="form-control" placeholder="اذكر اللغة والمستوى">
-                            </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="french_auth" class="form-label">الفرنسية</label>
+                            <select name="languages[الفرنسية]" class="form-control" id="french_auth">
+                                <option value="">اختر المستوى</option>
+                                <option value="لغة أم">لغة أم</option>
+                                <option value="ممتاز">ممتاز</option>
+                                <option value="جيد جداً">جيد جداً</option>
+                                <option value="جيد">جيد</option>
+                                <option value="مبتدئ">مبتدئ</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="german_auth" class="form-label">الألمانية</label>
+                            <select name="languages[الألمانية]" class="form-control" id="german_auth">
+                                <option value="">اختر المستوى</option>
+                                <option value="لغة أم">لغة أم</option>
+                                <option value="ممتاز">ممتاز</option>
+                                <option value="جيد جداً">جيد جداً</option>
+                                <option value="جيد">جيد</option>
+                                <option value="مبتدئ">مبتدئ</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -247,41 +538,21 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">رفع السيرة الذاتية (PDF فقط)</label>
                 <div class="col-sm-10">
-                    <input type="file" name="cv" class="form-control" accept="application/pdf">
-                    <small class="form-text text-muted">يرجى رفع ملف PDF فقط.</small>
+                    <div class="file-upload-container">
+                        <input type="file" name="cv" class="form-control" accept="application/pdf">
+                        <small class="form-text text-muted">يرجى رفع ملف PDF فقط.</small>
+                    </div>
                 </div>
             </div>
             
             <div class="form-group row">
-                <div class="col-sm-10 offset-sm-2">
+                <div class="col-sm-10 offset-sm-2" style="text-align: center; margin-top: 30px;">
                     <button type="submit" class="btn btn-primary">إرسال الطلب</button>
                 </div>
             </div>
         </form>
     </div>
     </div>
+</div>
 
-<style>
-/* تحسين اتجاه النص العربي */
-[dir="rtl"] {
-    text-align: right;
-}
-
-[dir="rtl"] .form-group label {
-    text-align: right;
-}
-
-[dir="rtl"] .form-control {
-    text-align: right;
-}
-
-[dir="rtl"] .form-check-label {
-    text-align: right;
-}
-
-[dir="rtl"] h2,
-[dir="rtl"] h4 {
-    text-align: right;
-}
-</style>
 @endsection 

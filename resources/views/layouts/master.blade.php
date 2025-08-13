@@ -30,6 +30,7 @@
 
     <!-- Style.css -->
     <link rel="stylesheet" type="text/css" href="{{URL::to('files/assets/css/style.css')}}">
+
     <link rel="stylesheet" type="text/css" href="{{URL::to('files/assets/css/jquery.mCustomScrollbar.css')}}">
 
     <link rel="stylesheet" type="text/css" href="{{URL::to('files/assets/icon/font-awesome/css/font-awesome.min.css')}}">
@@ -265,25 +266,25 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <div class="card-block">
-                                                <h6 class="m-b-20 p-b-5 b-b-default f-w-600">Information</h6>
+                                                <h6 class="m-b-20 p-b-5 b-b-default f-w-600">{{ __('Information') }}</h6>
                                                 <div class="row">
                                                     <div class="col-sm-6">
-                                                        <p class="m-b-10 f-w-600">Email</p>
+                                                        <p class="m-b-10 f-w-600">{{ __('Email') }}</p>
                                                         <h6 class="text-muted f-w-400">{{ Auth::user()->email }}<a href="#" class="cf_email" data-cfemail="1379767d6a53747e727a7f3d707c7e"></a></h6>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <p class="m-b-10 f-w-600">Department</p>
+                                                        <p class="m-b-10 f-w-600">{{ __('Department') }}</p>
                                                         <h6 class="text-muted f-w-400">{{ Auth::user()->department }}</h6>
                                                     </div>
                                                 </div>
-                                                <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">Section</h6>
+                                                <h6 class="m-b-20 m-t-40 p-b-5 b-b-default f-w-600">{{ __('Section') }}</h6>
                                                 <div class="row">
                                                     <div class="col-sm-6">
-                                                        <p class="m-b-10 f-w-600">Division</p>
+                                                        <p class="m-b-10 f-w-600">{{ __('Division') }}</p>
                                                         <h6 class="text-muted f-w-400">{{ Auth::user()->division }}</h6>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <p class="m-b-10 f-w-600">Role</p>
+                                                        <p class="m-b-10 f-w-600">{{ __('Role') }}</p>
                                                         <h6 class="text-muted f-w-400">{{ Auth::user()->role_name }}</h6>
                                                     </div>
                                                 </div>
@@ -293,7 +294,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-success"><i class="icofont icofont-check-circled"></i>Save</button>
+                        <button type="submit" class="btn btn-success"><i class="icofont icofont-check-circled"></i>{{ __('Save') }}</button>
                     </div>
                 </form>
             </div>

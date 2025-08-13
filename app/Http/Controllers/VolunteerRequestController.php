@@ -139,7 +139,13 @@ class VolunteerRequestController extends Controller
     public function create() {
         // جلب المهارات لعرضها في النموذج
         $skills = \App\Models\Skill::all();
-        return view('volunteer-requests.create', compact('skills'));
+        
+        // التحقق من حالة تسجيل الدخول لتحديد العرض المناسب
+        if (auth()->check()) {
+            return view('volunteer-requests.create', compact('skills'));
+        } else {
+            return view('volunteer-requests.create-guest', compact('skills'));
+        }
     }
 
     public function store(Request $request) {
@@ -267,7 +273,12 @@ class VolunteerRequestController extends Controller
                 }
             }
             
-            return redirect()->route('volunteer-requests.index')->with('success', 'تم إرسال الطلب بنجاح! سيتم مراجعته من قبل الإدارة.');
+            // التحقق من حالة تسجيل الدخول
+            if (auth()->check()) {
+                return redirect()->route('volunteer-requests.index')->with('success', 'تم إرسال الطلب بنجاح! سيتم مراجعته من قبل الإدارة.');
+            } else {
+                return redirect()->route('volunteer-requests.create')->with('success', 'تم إرسال طلب التطوع بنجاح! شكراً لك، سيتم التواصل معك قريباً.');
+            }
             
         } catch (\Illuminate\Validation\ValidationException $e) {
             \Log::error('Validation error: ' . json_encode($e->errors()));
@@ -295,7 +306,7 @@ class VolunteerRequestController extends Controller
     }
 
     public function show($id) {
-        $request = VolunteerRequest::findOrFail($id);
+        $request = VolunteerRequest::with(['availabilities', 'documents'])->findOrFail($id);
         return view('volunteer-requests.show', compact('request'));
     }
 

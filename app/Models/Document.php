@@ -14,6 +14,7 @@ class Document extends Model
     protected $fillable = [
         'document_id',
         'user_id',
+        'volunteer-request_id',
         'title',
         'description',
         'file_name',
@@ -54,6 +55,12 @@ class Document extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    // علاقة مع طلب التطوع
+    public function volunteerRequest()
+    {
+        return $this->belongsTo(VolunteerRequest::class, 'volunteer-request_id');
     }
 
     // علاقة مع النسخ الاحتياطية

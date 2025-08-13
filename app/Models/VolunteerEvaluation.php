@@ -65,6 +65,9 @@ class VolunteerEvaluation extends Model
     const RECOMMENDATION_CONDITIONAL = 'conditional';
     const RECOMMENDATION_REJECT = 'reject';
     const RECOMMENDATION_STRONG_REJECT = 'strong_reject';
+    const RECOMMENDATION_ACCEPTED = 'accepted';
+    const RECOMMENDATION_TRAINING_REQUIRED = 'training_required';
+    const RECOMMENDATION_REJECTED = 'rejected';
 
     public function volunteerRequest()
     {
@@ -82,35 +85,35 @@ class VolunteerEvaluation extends Model
     }
 
     /**
-     * Calculate overall score based on all criteria
+     * Calculate overall score based on main 5 criteria (out of 50)
+     */
+    /**
+     * Calculate the overall score based on the main 5 criteria (out of 50)
+     * Main criteria:
+     * - interview_score: Personal introduction
+     * - skills_assessment_score: Skills assessment
+     * - motivation_score: Motivation for volunteering
+     * - availability_score: Time availability
+     * - teamwork_score: Teamwork and handling challenges
      */
     public function calculateOverallScore(): float
     {
-        $scores = [
-            $this->interview_score ?? 0,
-            $this->skills_assessment_score ?? 0,
-            $this->motivation_score ?? 0,
-            $this->availability_score ?? 0,
-            $this->experience_score ?? 0,
-            $this->communication_score ?? 0,
-            $this->teamwork_score ?? 0,
-            $this->reliability_score ?? 0,
-            $this->adaptability_score ?? 0,
-            $this->leadership_score ?? 0,
-            $this->technical_skills_score ?? 0,
-            $this->cultural_fit_score ?? 0,
-            $this->commitment_score ?? 0
+        $mainScores = [
+            $this->interview_score ?? 0,           // Personal introduction
+            $this->skills_assessment_score ?? 0,   // Skills assessment
+            $this->motivation_score ?? 0,          // Motivation for volunteering
+            $this->availability_score ?? 0,        // Time availability
+            $this->teamwork_score ?? 0             // Teamwork and handling challenges
         ];
 
-        $validScores = array_filter($scores, function($score) {
-            return $score > 0;
-        });
+        $total = array_sum($mainScores);
 
-        if (empty($validScores)) {
-            return 0;
+        // Ensure the total score does not exceed 50
+        if ($total > 50) {
+            $total = 50;
         }
 
-        return round(array_sum($validScores) / count($validScores), 2);
+        return round($total, 2);
     }
 
     /**
@@ -139,22 +142,23 @@ class VolunteerEvaluation extends Model
             self::RECOMMENDATION_CONDITIONAL => 'موافقة مشروطة',
             self::RECOMMENDATION_REJECT => 'رفض',
             self::RECOMMENDATION_STRONG_REJECT => 'رفض قوي',
+            self::RECOMMENDATION_ACCEPTED => 'مقبول - مرشح ممتاز',
+            self::RECOMMENDATION_TRAINING_REQUIRED => 'كورسات تدريبية',
+            self::RECOMMENDATION_REJECTED => 'مرفوض',
             default => 'غير محدد'
         };
     }
 
     /**
-     * Get score level (Excellent, Good, Fair, Poor)
+     * Get score level based on new 50-point system
      */
     public function getScoreLevel(): string
     {
         $score = $this->overall_score ?? 0;
         
-        if ($score >= 90) return 'ممتاز';
-        if ($score >= 80) return 'جيد جداً';
-        if ($score >= 70) return 'جيد';
-        if ($score >= 60) return 'مقبول';
-        return 'ضعيف';
+        if ($score > 37) return 'ممتاز'; // أكثر من 75%
+        if ($score >= 25) return 'جيد';  // 50% - 75%
+        return 'مرفوض';                // أقل من 50%
     }
 
     /**
@@ -197,7 +201,10 @@ class VolunteerEvaluation extends Model
             self::RECOMMENDATION_APPROVE => 'موافقة',
             self::RECOMMENDATION_CONDITIONAL => 'موافقة مشروطة',
             self::RECOMMENDATION_REJECT => 'رفض',
-            self::RECOMMENDATION_STRONG_REJECT => 'رفض قوي'
+            self::RECOMMENDATION_STRONG_REJECT => 'رفض قوي',
+            self::RECOMMENDATION_ACCEPTED => 'مقبول - مرشح ممتاز',
+            self::RECOMMENDATION_TRAINING_REQUIRED => 'كورسات تدريبية',
+            self::RECOMMENDATION_REJECTED => 'مرفوض'
         ];
     }
 } 

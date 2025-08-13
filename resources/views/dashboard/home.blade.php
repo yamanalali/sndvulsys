@@ -8,7 +8,7 @@
             </div>
             <div class="card-body">
                 <p class="lead">Hello, <strong>{{ Auth::user()->name }}</strong>!</p>
-                <p>You're logged in. This is your dashboard home page. Use the sidebar to navigate through the system features.</p>
+                <p>You're logged in! This is your dashboard home page. Use the sidebar to navigate through the system features.</p>
                 <hr>
                 <div class="row text-center">
                     <div class="col-md-4 mb-3">

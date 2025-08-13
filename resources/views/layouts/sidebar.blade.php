@@ -28,7 +28,7 @@
                             <li>
                                 <a href="{{ route('availabilities.index') }}">
                                     <span class="pcoded-micon"><i class="feather icon-clock"></i></span>
-                                    <span class="pcoded-mtext">Availabilities</span>
+                                    <span class="pcoded-mtext">Availability</span>
                                 </a>
                             </li>
                         </ul>

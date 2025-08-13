@@ -82,6 +82,7 @@
                                 </div>
                             </div>
                         </li>
+
                         <li class="user-profile header-notification">
                             <div class="dropdown-primary dropdown">
                                 <div class="dropdown-toggle" data-toggle="dropdown">
@@ -90,29 +91,29 @@
                                     <i class="feather icon-chevron-down"></i>
                                 </div>
                                 <ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
+                                     <li>
+                                         <a href="#%21">
+                                             <i class="feather icon-settings"></i> Settings
+                                         </a>
+                                     </li>
                                     <li>
-                                        <a href="#!">
-                                            <i class="feather icon-settings"></i> Settings
+                                         <a href="user-profile.htm">
+                                             <i class="feather icon-user"></i> Profile
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="user-profile.htm">
-                                            <i class="feather icon-user"></i> Profile
+                                         <a href="email-inbox.htm">
+                                             <i class="feather icon-mail"></i> My Messages
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="email-inbox.htm">
-                                            <i class="feather icon-mail"></i> My Messages
+                                         <a href="auth-lock-screen.htm">
+                                             <i class="feather icon-lock"></i> Lock Screen
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="auth-lock-screen.htm">
-                                            <i class="feather icon-lock"></i> Lock Screen
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="auth-normal-sign-in.htm">
-                                            <i class="feather icon-log-out"></i> Logout
+                                         <a href="auth-normal-sign-in.htm">
+                                             <i class="feather icon-log-out"></i> Logout
                                         </a>
                                     </li>
                                 </ul>

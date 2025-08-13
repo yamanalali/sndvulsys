@@ -31,8 +31,8 @@
                         <a href="{{ route('volunteer-requests.list') }}" class="btn btn-primary">
                             <i class="fas fa-list"></i> قائمة الطلبات
                         </a>
-                        <a href="{{ route('approval-decisions.index') }}" class="btn btn-info">
-                            <i class="fas fa-gavel"></i> جميع القرارات
+                        <a href="{{ route('approval-decisions.statistics') }}" class="btn btn-info">
+                            <i class="fas fa-gavel"></i> إحصائيات القرارات
                         </a>
                     </div>
                 </div>

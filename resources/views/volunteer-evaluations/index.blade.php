@@ -124,13 +124,13 @@
                                             {{ $evaluation->evaluation_date ? $evaluation->evaluation_date->format('Y-m-d') : 'غير محدد' }}
                                         </td>
                                         <td>
-                                            <strong>{{ $evaluation->overall_score }}/100</strong>
-                                            <span class="badge badge-{{ $evaluation->overall_score >= 80 ? 'success' : ($evaluation->overall_score >= 60 ? 'warning' : 'danger') }}">
+                                            <strong>{{ $evaluation->overall_score }}/50</strong>
+                                            <span class="badge badge-{{ $evaluation->overall_score > 37 ? 'success' : ($evaluation->overall_score >= 25 ? 'warning' : 'danger') }}">
                                                 {{ $evaluation->getScoreLevel() }}
                                             </span>
                                         </td>
                                         <td>
-                                            <span class="badge badge-{{ $evaluation->recommendation === 'strong_approve' || $evaluation->recommendation === 'approve' ? 'success' : ($evaluation->recommendation === 'reject' || $evaluation->recommendation === 'strong_reject' ? 'danger' : 'warning') }}">
+                                            <span class="badge badge-{{ $evaluation->recommendation === 'accepted' ? 'success' : ($evaluation->recommendation === 'rejected' ? 'danger' : 'warning') }}">
                                                 {{ $evaluation->getRecommendationText() }}
                                             </span>
                                         </td>

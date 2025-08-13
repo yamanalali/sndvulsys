@@ -11,8 +11,7 @@
         .card { border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; }
         .score-badge { font-size: 1.2rem; padding: 0.5rem 1rem; }
         .score-excellent { background-color: #28a745; color: white; }
-        .score-good { background-color: #17a2b8; color: white; }
-        .score-fair { background-color: #ffc107; color: black; }
+        .score-good { background-color: #ffc107; color: black; }
         .score-poor { background-color: #dc3545; color: white; }
     </style>
 </head>
@@ -66,14 +65,13 @@
                 <div class="card-body">
                                         @php
                                             $scoreClass = match(true) {
-                                                $evaluation->overall_score >= 90 => 'score-excellent',
-                                                $evaluation->overall_score >= 80 => 'score-good',
-                                                $evaluation->overall_score >= 70 => 'score-fair',
+                                                $evaluation->overall_score > 37 => 'score-excellent',
+                                                $evaluation->overall_score >= 25 => 'score-good',
                                                 default => 'score-poor'
                                             };
                                         @endphp
                                         <div class="score-badge {{ $scoreClass }} rounded">
-                                            {{ $evaluation->overall_score ?? 0 }}/100
+                                            {{ $evaluation->overall_score ?? 0 }}/50
                                         </div>
                                         <h6 class="mt-2">{{ $evaluation->getScoreLevel() }}</h6>
                                         <p class="text-muted mb-0">النتيجة الإجمالية</p>
@@ -98,9 +96,17 @@
                                 <tr>
                                                 <td><strong>التوصية:</strong></td>
                                                 <td>
-                                                    <span class="badge bg-{{ $evaluation->recommendation === 'strong_approve' || $evaluation->recommendation === 'approve' ? 'success' : ($evaluation->recommendation === 'conditional' ? 'warning' : 'danger') }}">
-                                            {{ $evaluation->getRecommendationText() }}
-                                        </span>
+                                                    @php
+                                                        $badgeClass = match($evaluation->recommendation) {
+                                                            'accepted', 'strong_approve', 'approve' => 'success',
+                                                            'training_required', 'conditional' => 'warning',
+                                                            'rejected', 'reject', 'strong_reject' => 'danger',
+                                                            default => 'secondary'
+                                                        };
+                                                    @endphp
+                                                    <span class="badge bg-{{ $badgeClass }}">
+                                                        {{ $evaluation->getRecommendationText() }}
+                                                    </span>
                                     </td>
                                 </tr>
                                 <tr>
@@ -127,29 +133,37 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <small>المقابلة الشخصية</small>
+                                                <small>التعريف الشخصي</small>
                                                 <div class="progress mb-2">
-                                                    <div class="progress-bar" style="width: {{ $evaluation->interview_score ?? 0 }}%">{{ $evaluation->interview_score ?? 0 }}</div>
+                                                    <div class="progress-bar" style="width: {{ ($evaluation->interview_score ?? 0) * 10 }}%">{{ $evaluation->interview_score ?? 0 }}/10</div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <small>المهارات</small>
+                                                <small>الدافع للتطوع</small>
                                                 <div class="progress mb-2">
-                                                    <div class="progress-bar" style="width: {{ $evaluation->skills_assessment_score ?? 0 }}%">{{ $evaluation->skills_assessment_score ?? 0 }}</div>
+                                                    <div class="progress-bar" style="width: {{ ($evaluation->skills_assessment_score ?? 0) * 10 }}%">{{ $evaluation->skills_assessment_score ?? 0 }}/10</div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <small>الدافع</small>
+                                                <small>المهارات والخبرات</small>
                                                 <div class="progress mb-2">
-                                                    <div class="progress-bar" style="width: {{ $evaluation->motivation_score ?? 0 }}%">{{ $evaluation->motivation_score ?? 0 }}</div>
+                                                    <div class="progress-bar" style="width: {{ ($evaluation->motivation_score ?? 0) * 10 }}%">{{ $evaluation->motivation_score ?? 0 }}/10</div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
-                                                <small>التوفر</small>
+                                                <small>التوفر الزمني</small>
                                                 <div class="progress mb-2">
-                                                    <div class="progress-bar" style="width: {{ $evaluation->availability_score ?? 0 }}%">{{ $evaluation->availability_score ?? 0 }}</div>
+                                                    <div class="progress-bar" style="width: {{ ($evaluation->availability_score ?? 0) * 10 }}%">{{ $evaluation->availability_score ?? 0 }}/10</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <small>التعامل مع التحديات</small>
+                                                <div class="progress mb-2">
+                                                    <div class="progress-bar" style="width: {{ ($evaluation->teamwork_score ?? 0) * 10 }}%">{{ $evaluation->teamwork_score ?? 0 }}/10</div>
                                                 </div>
                                             </div>
                                         </div>

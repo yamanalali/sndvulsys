@@ -88,6 +88,11 @@ public function approvalDecision()
     return $this->hasOne(ApprovalDecision::class, 'volunteer-request_id');
 }
 
+    public function documents()
+    {
+        return $this->hasMany(Document::class, 'volunteer-request_id');
+    }
+
 public function caseStatuses()
 {
     return $this->hasMany(CaseStatus::class, 'volunteer-request_id');

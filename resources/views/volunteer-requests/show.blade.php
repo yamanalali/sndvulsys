@@ -37,6 +37,143 @@
                         </div>
                     @endif
 
+                    <!-- جدول التوفر الأسبوعي -->
+                    @if($request->availabilities && $request->availabilities->count() > 0)
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>جدول التوفر الأسبوعي</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered text-center align-middle">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th>اليوم</th>
+                                                    <th>الفترة</th>
+                                                    <th>متاح</th>
+                                                    <th>من</th>
+                                                    <th>إلى</th>
+                                                    <th>ملاحظات</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($request->availabilities as $av)
+                                                    <tr>
+                                                        <td>{{ \App\Models\Availability::getDays()[$av->day] ?? $av->day }}</td>
+                                                        <td>{{ \App\Models\Availability::getTimeSlots()[$av->time_slot] ?? ($av->time_slot ?? '—') }}</td>
+                                                        <td>
+                                                            <span class="badge bg-{{ $av->is_available ? 'success' : 'secondary' }}">
+                                                                {{ $av->is_available ? 'متاح' : 'غير متاح' }}
+                                                            </span>
+                                                        </td>
+                                                        <td>{{ $av->start_time ? \Carbon\Carbon::parse($av->start_time)->format('H:i') : '—' }}</td>
+                                                        <td>{{ $av->end_time ? \Carbon\Carbon::parse($av->end_time)->format('H:i') : '—' }}</td>
+                                                        <td>{{ $av->notes ?? '—' }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+
+                    <!-- مستندات الطلب -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">مستندات الطلب</h5>
+                                    <button class="btn btn-sm btn-primary" data-bs-toggle="collapse" data-bs-target="#uploadDocumentForm">
+                                        <i class="fas fa-upload"></i> رفع مستند
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <div id="uploadDocumentForm" class="collapse mb-3">
+                                        <form method="POST" action="{{ route('volunteer-requests.documents.store', $request->id) }}" enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="row g-3">
+                                                <div class="col-md-4">
+                                                    <label class="form-label">العنوان</label>
+                                                    <input type="text" name="title" class="form-control" required>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label">مستوى الخصوصية</label>
+                                                    <select name="privacy_level" class="form-control" required>
+                                                        <option value="private">خاص</option>
+                                                        <option value="restricted">مقيد</option>
+                                                        <option value="public">عام</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <label class="form-label">وصف (اختياري)</label>
+                                                    <textarea name="description" rows="2" class="form-control"></textarea>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <input type="file" name="file" class="form-control" required accept=".pdf,.doc,.docx,.txt,.jpg,.jpeg,.png">
+                                                    <small class="text-muted">الحد الأقصى 10MB</small>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <button type="submit" class="btn btn-success w-100">
+                                                        حفظ
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    @if($request->documents && $request->documents->count() > 0)
+                                        <div class="table-responsive">
+                                            <table class="table table-striped align-middle">
+                                                <thead>
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>العنوان</th>
+                                                        <th>النوع</th>
+                                                        <th>الحجم</th>
+                                                        <th>الخصوصية</th>
+                                                        <th>تاريخ الرفع</th>
+                                                        <th>إجراءات</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($request->documents as $doc)
+                                                        <tr>
+                                                            <td>{{ $loop->iteration }}</td>
+                                                            <td>{{ $doc->title }}</td>
+                                                            <td>{{ strtoupper($doc->file_type) }}</td>
+                                                            <td>{{ $doc->formatted_size ?? number_format(($doc->file_size/1024), 1) . ' KB' }}</td>
+                                                            <td><span class="badge bg-secondary">{{ $doc->privacy_level_text ?? $doc->privacy_level }}</span></td>
+                                                            <td>{{ $doc->created_at->format('Y-m-d') }}</td>
+                                                            <td>
+                                                                <a href="{{ asset('storage/' . $doc->file_path) }}" target="_blank" class="btn btn-sm btn-info">
+                                                                    <i class="fas fa-eye"></i>
+                                                                </a>
+                                                                <form method="POST" action="{{ route('volunteer-requests.documents.destroy', [$request->id, $doc->id]) }}" style="display:inline-block" onsubmit="return confirm('تأكيد الحذف؟');">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit" class="btn btn-sm btn-danger">
+                                                                        <i class="fas fa-trash"></i>
+                                                                    </button>
+                                                                </form>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    @else
+                                        <p class="text-muted mb-0">لا توجد مستندات مرتبطة بهذا الطلب.</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <!-- المعلومات الشخصية -->
                         <div class="col-md-6">

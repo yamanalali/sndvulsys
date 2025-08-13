@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="card-block" style="direction: rtl; text-align: right;">
+<div class="card-block">
     {{-- رسالة النجاح --}}
     @if(session('success'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -45,9 +45,9 @@
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label">رقم الهوية الوطنية</label>
+            <label class="col-sm-2 col-form-label">رقم الهوية</label>
             <div class="col-sm-10">
-                <input type="text" name="national_id" class="form-control" placeholder="أدخل رقم الهوية الوطنية">
+                <input type="text" name="national_id" class="form-control" placeholder="أدخل رقم الهوية">
             </div>
         </div>
         <div class="form-group row">

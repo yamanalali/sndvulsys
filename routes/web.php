@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LanguageController;
 //---shahd2---//
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\PreviousExperienceController;
@@ -30,6 +31,8 @@ function set_active($route) {
 Route::get('/', function () {
     return view('auth.login');
 });
+
+
 
 // مسار اختبار للتأكد من أن النظام يعمل
 Route::get('/test', function () {
@@ -146,6 +149,9 @@ Route::get('volunteer-evaluations/statistics', [VolunteerEvaluationController::c
 Route::resource('volunteer-evaluations', VolunteerEvaluationController::class);
 Route::get('volunteer-evaluations/{volunteerRequestId}/create', [VolunteerEvaluationController::class, 'create'])->name('volunteer-evaluations.create');
 Route::post('volunteer-evaluations/{volunteerRequestId}', [VolunteerEvaluationController::class, 'store'])->name('volunteer-evaluations.store');
+// نموذج الاستبيان الموجّه
+Route::get('volunteer-evaluations/{volunteerRequestId}/questionnaire', [VolunteerEvaluationController::class, 'questionnaire'])->name('volunteer-evaluations.questionnaire');
+Route::post('volunteer-evaluations/{volunteerRequestId}/questionnaire', [VolunteerEvaluationController::class, 'storeQuestionnaire'])->name('volunteer-evaluations.store-questionnaire');
 
 // سير العمل
 Route::resource('workflows', WorkflowController::class);
@@ -302,6 +308,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('documents/{document}/backups', [DocumentController::class, 'showBackups'])->name('documents.backups');
     Route::get('documents/backups', [DocumentController::class, 'allBackups'])->name('documents.all-backups');
     Route::post('document-backups/{backup}/restore', [DocumentController::class, 'restoreBackup'])->name('document-backups.restore');
+});
+
+// مستندات مرتبطة بطلب التطوع
+Route::middleware(['auth'])->prefix('volunteer-requests/{volunteerRequest}')->group(function () {
+    Route::post('/documents', [App\Http\Controllers\VolunteerRequestDocumentController::class, 'store'])
+        ->name('volunteer-requests.documents.store');
+    Route::delete('/documents/{document}', [App\Http\Controllers\VolunteerRequestDocumentController::class, 'destroy'])
+        ->name('volunteer-requests.documents.destroy');
+    Route::get('/documents', [App\Http\Controllers\VolunteerRequestDocumentController::class, 'index'])
+        ->name('volunteer-requests.documents.index');
 });
 
 // علاقات المستخدمين
